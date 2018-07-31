@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright 2017 Zhihu Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<resources>
+    <string name="cancel">取消</string>
+    <string name="album_name_all">全部</string>
+    <string name="button_preview">预览</string>
+    <string name="button_apply_default">使用</string>
+    <string name="button_apply">使用(%1$d)</string>
+    <string name="button_back">返回</string>
+    <string name="photo_grid_capture">拍一张</string>
+    <string name="empty_text">还没有图片或视频</string>
+    <string name="button_ok">我知道了</string>
+
+    <string name="error_over_count_default">您已经达到最大选择数量</string>
+    <string name="error_over_count">最多只能选择 %1$d 个文件</string>
+    <string name="error_under_quality">图片质量太低</string>
+    <string name="error_over_quality">图片质量太高</string>
+    <string name="error_file_type">不支持的文件类型</string>
+    <string name="error_type_conflict">不能同时选择图片和视频</string>
+    <string name="error_no_video_activity">没有支持视频预览的应用</string>
+    <string name="error_over_original_size">"该照片大于 %1$d M，无法上传将取消勾选原图"</string>
+    <string name="error_over_original_count">"有 %1$d 张照片大于 %2$d M\n无法上传，将取消勾选原图"</string>
+    <string name="button_original">原图</string>
+    <string name="button_sure_default">确定</string>
+    <string name="button_sure">确定(%1$d)</string>
+    <string name="face_recently">Recently</string>
+    <string name="face_Emoji">Emoji</string>
+    <string name="face_set_one">Default</string>
+    <array name="emoji_filter">
+        <item>[爱你]</item>
+        <item>[奥特曼]</item>
+        <item>[拜拜]</item>
+        <item>[悲伤]</item>
+        <item>[鄙视]</item>
+        <item>[闭嘴]</item>
+        <item>[馋嘴]</item>
+        <item>[吃惊]</item>
+        <item>[哈欠]</item>
+        <item>[打脸]</item>
+        <item>[顶]</item>
+        <item>[doge]</item>
+        <item>[肥皂]</item>
+        <item>[感冒]</item>
+        <item>[鼓掌]</item>
+        <item>[哈哈]</item>
+        <item>[害羞]</item>
+        <item>[汗]</item>
+        <item>[微笑]</item>
+        <item>[黑线]</item>
+        <item>[哼]</item>
+        <item>[色]</item>
+        <item>[挤眼]</item>
+        <item>[可爱]</item>
+        <item>[可怜]</item>
+        <item>[酷]</item>
+        <item>[困]</item>
+        <item>[白眼]</item>
+        <item>[泪]</item>
+        <item>[马到成功]</item>
+        <item>[喵喵]</item>
+        <item>[男孩儿]</item>
+        <item>[怒]</item>
+        <item>[怒骂]</item>
+        <item>[女孩儿]</item>
+        <item>[钱]</item>
+        <item>[亲亲]</item>
+        <item>[傻眼]</item>
+        <item>[生病]</item>
+        <item>[草泥马]</item>
+        <item>[失望]</item>
+        <item>[衰]</item>
+        <item>[睡]</item>
+        <item>[思考]</item>
+        <item>[太开心]</item>
+        <item>[偷笑]</item>
+        <item>[吐]</item>
+        <item>[兔子]</item>
+        <item>[挖鼻]</item>
+        <item>[委屈]</item>
+        <item>[笑cry]</item>
+        <item>[熊猫]</item>
+        <item>[嘻嘻]</item>
+        <item>[嘘]</item>
+        <item>[阴险]</item>
+        <item>[疑问]</item>
+        <item>[右哼哼]</item>
+        <item>[晕]</item>
+        <item>[炸鸡啤酒]</item>
+        <item>[抓狂]</item>
+        <item>[猪头]</item>
+        <item>[最右]</item>
+        <item>[左哼哼]</item>
+        <item>[给力]</item>
+        <item>[互粉]</item>
+        <item>[囧]</item>
+        <item>[萌]</item>
+        <item>[神马]</item>
+        <item>[威武]</item>
+        <item>[喜]</item>
+        <item>[织]</item>
+        <item>[NO]</item>
+        <item>[good]</item>
+        <item>[haha]</item>
+        <item>[来]</item>
+        <item>[OK]</item>
+        <item>[拳头]</item>
+        <item>[弱]</item>
+        <item>[握手]</item>
+        <item>[耶]</item>
+        <item>[赞]</item>
+        <item>[作揖]</item>
+        <item>[伤心]</item>
+        <item>[心]</item>
+        <item>[蛋糕]</item>
+        <item>[飞机]</item>
+        <item>[干杯]</item>
+        <item>[话筒]</item>
+        <item>[蜡烛]</item>
+        <item>[礼物]</item>
+        <item>[绿丝带]</item>
+        <item>[围脖]</item>
+        <item>[围观]</item>
+        <item>[音乐]</item>
+        <item>[照相机]</item>
+        <item>[钟]</item>
+        <item>[浮云]</item>
+        <item>[沙尘暴]</item>
+        <item>[太阳]</item>
+        <item>[微风]</item>
+        <item>[鲜花]</item>
+        <item>[下雨]</item>
+        <item>[月亮]</item>
+
+
+    </array>
+
+
+    <string name="action_photo">图片</string>
+    <string name="action_video">视频</string>
+    <string name="action_location">位置</string>
+
+
+    <string name="user_location">所在地</string>
+    <string name="user_birthday">生日</string>
+    <string name="chat_to_top">置顶聊天</string>
+    <string name="send_message">发送消息</string>
+    <string name="add_friend">添加好友</string>
+    <string name="del_friend">删除好友</string>
+    <string name="add_to_blacklist">加入黑名单</string>
+
+    <string name="group_members">群成员</string>
+    <string name="group_type">群类型</string>
+    <string name="join_group_type">加群方式</string>
+    <string name="in_group_nick_name">我的群昵称</string>
+    <string name="dissolve">解散该群</string>
+    <string name="modify_group_name">修改群名称</string>
+    <string name="modify_group_notice">修改群公告</string>
+    <string name="record_cancel_tips">手指上滑，取消发送</string>
+
+</resources>

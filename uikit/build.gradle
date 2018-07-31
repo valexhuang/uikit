@@ -1,0 +1,49 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
+
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    sourceSets {
+        main {
+            assets.srcDirs = ['assets']
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "com.android.support:support-v4:27.1.1"
+    implementation "com.android.support:appcompat-v7:27.1.1"
+    implementation "com.android.support:support-annotations:27.1.1"
+    implementation "com.android.support:recyclerview-v7:27.1.1"
+    implementation 'it.sephiroth.android.library.imagezoom:library:1.0.4'
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    //compileOnly 'com.github.bumptech.glide:glide:3.7.0'
+    compileOnly 'com.squareup.picasso:picasso:2.5.2'
+
+    compile 'com.tencent.ilivesdk:ilivesdk:1.8.7'
+    compile 'com.tencent.livesdk:livesdk:1.1.2'
+
+
+}

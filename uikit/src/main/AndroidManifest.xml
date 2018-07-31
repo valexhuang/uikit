@@ -1,0 +1,25 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tencent.qcloud.uikit">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application>
+        <activity android:name="com.tencent.qcloud.uikit.common.component.picture.ui.MatisseActivity" />
+        <activity android:name="com.tencent.qcloud.uikit.common.component.picture.internal.ui.AlbumPreviewActivity" />
+        <activity android:name="com.tencent.qcloud.uikit.common.component.picture.internal.ui.SelectedPreviewActivity" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.tencent.qcloud.uikit.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths_public"></meta-data>
+        </provider>
+
+    </application>
+
+
+</manifest>
