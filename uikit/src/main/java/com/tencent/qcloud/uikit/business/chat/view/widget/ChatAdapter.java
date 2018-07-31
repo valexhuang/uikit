@@ -113,6 +113,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
                     public void onClick(View view) {
                         audioHolder.imgPlay.setImageResource(R.drawable.play_voice_message);
                         final AnimationDrawable animationDrawable = (AnimationDrawable) audioHolder.imgPlay.getDrawable();
+                        animationDrawable.start();
                         ILiveAudioMachine.getInstance().playRecord(msg.getDataPath(), new ILiveAudioMachine.AudioHandleCallback() {
                             @Override
                             public void recordComplete() {
@@ -123,6 +124,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
                             public void playComplete() {
                                 if (animationDrawable != null)
                                     animationDrawable.stop();
+                                audioHolder.imgPlay.setImageResource(R.drawable.voice_msg_playing_3);
                             }
                         });
                     }
