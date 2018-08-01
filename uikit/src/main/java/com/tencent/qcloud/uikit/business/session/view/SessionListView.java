@@ -37,12 +37,20 @@ public class SessionListView extends ListView {
 
     private boolean mIsShown;
 
+    private boolean mIsPressed, mLongPressed;
+
+    private long mPressedTime;
+
+
+    private ItemLongClickListener mItemLongClickListener;
+
+
     public SessionListView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public SessionListView(Context context, AttributeSet attrs) {
-        this(context, attrs,0);
+        this(context, attrs, 0);
     }
 
     public SessionListView(Context context, AttributeSet attrs, int defStyle) {
@@ -56,6 +64,11 @@ public class SessionListView extends ListView {
 
         mTypedArray.recycle();
     }
+
+    public void setItemLongClickListener(ItemLongClickListener listener) {
+        this.mItemLongClickListener = listener;
+    }
+
 
     /**
      * return true, deliver to listView. return false, deliver to child. if
@@ -71,7 +84,7 @@ public class SessionListView extends ListView {
                 System.out.println("onInterceptTouchEvent----->ACTION_DOWN");
                 mFirstX = lastX;
                 mFirstY = lastY;
-                int motionPosition = pointToPosition((int)mFirstX, (int)mFirstY);
+                int motionPosition = pointToPosition((int) mFirstX, (int) mFirstY);
 
                 if (motionPosition >= 0) {
                     View currentItemView = getChildAt(motionPosition - getFirstVisiblePosition());
@@ -140,18 +153,26 @@ public class SessionListView extends ListView {
      * both.
      */
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
+    public boolean onTouchEvent(final MotionEvent ev) {
         float lastX = ev.getX();
         float lastY = ev.getY();
-
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                mIsPressed = true;
+                mLongPressed = false;
+                mPressedTime = System.currentTimeMillis();
+                postDelayed(new LongPressCheck(mPressedTime, lastX, lastY), 500);
                 System.out.println("---->ACTION_DOWN");
                 break;
 
             case MotionEvent.ACTION_MOVE:
                 float dx = lastX - mFirstX;
                 float dy = lastY - mFirstY;
+                if (Math.abs(dx) > 10)
+                    mIsPressed = false;
+                if (mLongPressed)
+                    return true;
+
 
                 // confirm is scroll direction
                 if (mIsHorizontal == null) {
@@ -182,7 +203,7 @@ public class SessionListView extends ListView {
 
                     // can't move beyond boundary
                     if (dx < 0 && dx > -mRightViewWidth) {
-                        mCurrentItemView.scrollTo((int)(-dx), 0);
+                        mCurrentItemView.scrollTo((int) (-dx), 0);
                     }
 
                     return true;
@@ -204,6 +225,9 @@ public class SessionListView extends ListView {
 
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+                mIsPressed = false;
+                if (mLongPressed)
+                    return true;
                 System.out.println("============ACTION_UP");
                 clearPressedState();
                 if (mIsShown) {
@@ -216,6 +240,7 @@ public class SessionListView extends ListView {
                      * 这时候左右滑动当前一个item,那个右边布局显示的item隐藏其右边布局
                      */
                     hiddenRight(mPreItemView);
+                    return true;
                 }
 
                 if (mIsHorizontal != null && mIsHorizontal) {
@@ -238,6 +263,16 @@ public class SessionListView extends ListView {
         }
 
         return super.onTouchEvent(ev);
+    }
+
+    @Override
+    protected boolean dispatchHoverEvent(MotionEvent event) {
+        return super.dispatchHoverEvent(event);
+    }
+
+    @Override
+    public boolean onHoverEvent(MotionEvent event) {
+        return super.onHoverEvent(event);
     }
 
     private void clearPressedState() {
@@ -303,10 +338,10 @@ public class SessionListView extends ListView {
                     return;
                 }
                 mIsInAnimation = true;
-                view = (View)msg.obj;
+                view = (View) msg.obj;
                 fromX = msg.arg1;
                 toX = msg.arg2;
-                stepX = (int)((toX - fromX) * mDurationStep * 1.0 / mDuration);
+                stepX = (int) ((toX - fromX) * mDurationStep * 1.0 / mDuration);
                 if (stepX < 0 && stepX > -1) {
                     stepX = -1;
                 } else if (stepX > 0 && stepX < 1) {
@@ -342,5 +377,32 @@ public class SessionListView extends ListView {
 
     public void setRightViewWidth(int mRightViewWidth) {
         this.mRightViewWidth = mRightViewWidth;
+    }
+
+    private class LongPressCheck implements Runnable {
+        private long pressTime;
+        private float locationX, locationY;
+
+        LongPressCheck(long time, float x, float y) {
+            pressTime = time;
+            locationX = x;
+            locationY = y;
+        }
+
+        @Override
+        public void run() {
+            if (mPressedTime == pressTime) {
+                if (mIsPressed && mItemLongClickListener != null) {
+                    mLongPressed = true;
+                    clearPressedState();
+                    mItemLongClickListener.onItemLongClick(mCurrentItemView, getPositionForView(mCurrentItemView), locationX, locationY);
+                }
+            }
+        }
+    }
+
+
+    public interface ItemLongClickListener {
+        void onItemLongClick(View view, int position, float x, float y);
     }
 }

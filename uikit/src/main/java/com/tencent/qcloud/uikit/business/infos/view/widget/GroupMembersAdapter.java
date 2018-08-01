@@ -55,6 +55,10 @@ public class GroupMembersAdapter extends BaseAdapter {
         return view;
     }
 
+    public void setDataSource(List<PersonalInfoBean> members) {
+        this.mGroupMembers = members;
+    }
+
     private class MyViewHolder {
         private ImageView memberIcon;
         private TextView memberName;

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.tencent.qcloud.uikit.business.chat.view.ChatPanel;
 import com.tencent.qcloud.uikit.business.infos.model.GroupInfoBean;
+import com.tencent.qcloud.uikit.business.infos.view.fragment.GroupInfoFragment;
 import com.tencent.qcloud.uikit.common.BaseFragment;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 import com.tencent.qcloud.uipojo.R;

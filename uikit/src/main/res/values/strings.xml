@@ -163,6 +163,8 @@
 
     <string name="group_members">群成员</string>
     <string name="group_type">群类型</string>
+    <string name="add_group_member">增加成员</string>
+    <string name="remove_group_member">移除成员</string>
     <string name="join_group_type">加群方式</string>
     <string name="in_group_nick_name">我的群昵称</string>
     <string name="dissolve">解散该群</string>

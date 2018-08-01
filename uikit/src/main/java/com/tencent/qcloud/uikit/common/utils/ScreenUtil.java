@@ -12,6 +12,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.Window;
 
+import com.tencent.ilivesdk.ILiveSDK;
 import com.tencent.qcloud.uikit.ILiveUIKit;
 import com.tencent.qcloud.uikit.common.ILiveConstants;
 
@@ -60,5 +61,14 @@ public class ScreenUtil {
         size[0] = dm.widthPixels;
         size[1] = dm.heightPixels;
         return size;
+    }
+
+    public static int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = ILiveUIKit.getAppContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = ILiveUIKit.getAppContext().getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 }

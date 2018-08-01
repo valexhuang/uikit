@@ -35,6 +35,7 @@ public class GroupInfoPanel extends LinearLayout implements IGroupInfoPanel {
     private GroupInfoPanelEvent mEvent;
     private AlertDialog mDialog;
     private GroupInfoBean mGroupInfo;
+    private View mMemberBar;
 
     public GroupInfoPanel(Context context) {
         super(context);
@@ -53,6 +54,7 @@ public class GroupInfoPanel extends LinearLayout implements IGroupInfoPanel {
 
     private void init() {
         inflate(getContext(), R.layout.group_info_panel, this);
+        mMemberBar = findViewById(R.id.group_info_members);
         mGroupIcon = findViewById(R.id.group_icon);
         mGroupName = findViewById(R.id.group_name);
         mGroupAccount = findViewById(R.id.group_account);
@@ -80,7 +82,7 @@ public class GroupInfoPanel extends LinearLayout implements IGroupInfoPanel {
     private void buildPopMenu() {
         if (mDialog == null) {
             mDialog = PopWindowUtil.buildFullScreenDialog((Activity) getContext());
-            View moreActionView = inflate(getContext(), R.layout.group_more_action_panel, null);
+            View moreActionView = inflate(getContext(), R.layout.group_info_pop_panel, null);
             mModifyGroupName = moreActionView.findViewById(R.id.modify_group_name);
             mModifyGroupName.setOnClickListener(new OnClickListener() {
                 @Override
@@ -117,6 +119,10 @@ public class GroupInfoPanel extends LinearLayout implements IGroupInfoPanel {
             mDialog.show();
         }
 
+    }
+
+    public void setMemberBarClick(OnClickListener clickListener) {
+        mMemberBar.setOnClickListener(clickListener);
     }
 
     @Override

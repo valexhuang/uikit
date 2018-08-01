@@ -31,10 +31,11 @@ import java.util.List;
  */
 
 public class SessionPanel extends RelativeLayout implements ISessionPanel {
-    private ListView mSessionList, mPopMenuList;
+    private ListView mPopMenuList, mItemPopMenuList;
+    private SessionListView mSessionList;
     private SessionPanelEvent mSessionEvent;
     private SessionAdapter mAdapter;
-    private SessionPopMenuAdapter mMenuAdapter;
+    private SessionPopMenuAdapter mMenuAdapter, mItemMenuAdapter;
     private SessionPresenter mPresenter;
     private PageTitleBar mTitleBar;
     private AlertDialog mPopDialog;
@@ -62,8 +63,18 @@ public class SessionPanel extends RelativeLayout implements ISessionPanel {
         mSessionList = findViewById(R.id.session_list);
         mAdapter = new SessionAdapter();
         mSessionList.setAdapter(mAdapter);
-
-
+        mSessionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mSessionEvent.onSessionClick(view, i);
+            }
+        });
+        mSessionList.setItemLongClickListener(new SessionListView.ItemLongClickListener() {
+            @Override
+            public void onItemLongClick(View view, int position, float x, float y) {
+                showItemPopMenu(x, y);
+            }
+        });
     }
 
     private void showPopMenu() {
@@ -95,6 +106,32 @@ public class SessionPanel extends RelativeLayout implements ISessionPanel {
             mPopDialog.show();
         }
 
+    }
+
+
+    public void showItemPopMenu(float locationX, float locationY) {
+        View itemPop = inflate(getContext(), R.layout.session_item_pop_menu, null);
+        List<PopMenuAction> menuActions = new ArrayList<PopMenuAction>();
+        PopMenuAction action = new PopMenuAction();
+        action.setActionName("添加好友");
+        menuActions.add(action);
+        action = new PopMenuAction();
+        action.setActionName("发起群聊");
+        menuActions.add(action);
+        action = new PopMenuAction();
+        action.setActionName("发起群聊");
+        menuActions.add(action);
+        action = new PopMenuAction();
+        action.setActionName("发起群聊");
+        menuActions.add(action);
+        action = new PopMenuAction();
+        action.setActionName("发起群聊");
+        menuActions.add(action);
+        mItemPopMenuList = itemPop.findViewById(R.id.session_item_pop_list);
+        mItemMenuAdapter = new SessionPopMenuAdapter();
+        mItemPopMenuList.setAdapter(mItemMenuAdapter);
+        mItemMenuAdapter.setDataSource(menuActions);
+        PopWindowUtil.popupWindow(itemPop, this, locationX, locationY);
     }
 
     @Override
@@ -145,12 +182,6 @@ public class SessionPanel extends RelativeLayout implements ISessionPanel {
         });
         mPresenter = new SessionPresenter(this);
         mPresenter.loadSessionData();
-        mSessionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mSessionEvent.onSessionClick(view, i);
-            }
-        });
 
 
     }
