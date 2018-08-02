@@ -1,0 +1,17 @@
+package com.tencent.qcloud.uikit.business.contact.view.widget;
+
+import android.view.View;
+
+import com.tencent.TIMUserProfile;
+
+/**
+ * Created by valexhuang on 2018/6/28.
+ */
+
+public interface ContactPanelEvent {
+    public void onAddContactClick(View view, String identify);
+
+    public void onDelContactClick(View view, String identify);
+
+    void onItemClick(View view, int position, TIMUserProfile userProfile);
+}

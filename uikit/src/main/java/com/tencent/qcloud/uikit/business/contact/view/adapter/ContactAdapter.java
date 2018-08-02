@@ -1,63 +1,109 @@
 package com.tencent.qcloud.uikit.business.contact.view.adapter;
 
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.tencent.TIMUserProfile;
-import com.tencent.qcloud.uikit.R;
 import com.tencent.qcloud.uikit.ILiveUIKit;
+import com.tencent.qcloud.uikit.R;
+import com.tencent.qcloud.uikit.business.contact.model.ContactInfoBean;
+import com.tencent.qcloud.uikit.business.contact.view.ContactList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by valexhuang on 2018/6/22.
+ * Created by valexhuang on 2018/7/3.
  */
 
-public class ContactAdapter extends BaseAdapter {
-    private List<TIMUserProfile> contacts = new ArrayList<TIMUserProfile>();
-    LayoutInflater inflater = LayoutInflater.from(ILiveUIKit.getAppContext());
 
-    @Override
-    public int getCount() {
-        return contacts.size();
+public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
+    protected List<ContactInfoBean> mDatas;
+    protected LayoutInflater mInflater;
+    private ContactList.ContactSelectChangedListener mSelectChangeListener;
+
+    public ContactAdapter(List<ContactInfoBean> mDatas) {
+        this.mDatas = mDatas;
+        mInflater = LayoutInflater.from(ILiveUIKit.getAppContext());
+
+    }
+
+    public List<ContactInfoBean> getDatas() {
+        return mDatas;
+    }
+
+    public ContactAdapter setDatas(List<ContactInfoBean> datas) {
+        mDatas = datas;
+        return this;
     }
 
     @Override
-    public TIMUserProfile getItem(int position) {
-        return contacts.get(position);
+    public ContactAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ContactAdapter.ViewHolder(mInflater.inflate(R.layout.contact_selecable_adapter_item, parent, false));
     }
 
     @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.contact_adapter, null);
-            holder = new ViewHolder();
-            holder.contactName = convertView.findViewById(R.id.contact_name);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
+    public void onBindViewHolder(final ContactAdapter.ViewHolder holder, final int position) {
+        final ContactInfoBean contactBean = mDatas.get(position);
+        holder.tvName.setText(contactBean.getCity());
+        if (mSelectChangeListener != null) {
+            holder.ccSelect.setVisibility(View.VISIBLE);
+            holder.ccSelect.setChecked(contactBean.isSelected());
+            holder.ccSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    mSelectChangeListener.onSelectChanged(getItem(position), isChecked);
+                }
+            });
         }
-        holder.contactName.setText(getItem(position).getIdentifier());
-        return convertView;
+
+        holder.content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ILiveUIKit.getAppContext(), "pos:" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+        holder.avatar.setImageResource(R.drawable.friend);
     }
 
-    public void setDataSource(List<TIMUserProfile> datas) {
-        this.contacts = datas;
+    private ContactInfoBean getItem(int position) {
+        return mDatas.get(position);
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return mDatas != null ? mDatas.size() : 0;
+    }
+
+    public void setDataSource(List<ContactInfoBean> datas) {
+        this.mDatas = datas;
         notifyDataSetChanged();
     }
 
-    private class ViewHolder {
-        TextView contactName;
+
+    public void setContactSelectListener(ContactList.ContactSelectChangedListener selectListener) {
+        mSelectChangeListener = selectListener;
     }
 
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tvName;
+        ImageView avatar;
+        CheckBox ccSelect;
+        View content;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            tvName = (TextView) itemView.findViewById(R.id.tvCity);
+            avatar = (ImageView) itemView.findViewById(R.id.ivAvatar);
+            ccSelect = itemView.findViewById(R.id.contact_check_box);
+            content = itemView.findViewById(R.id.content);
+        }
+    }
 }

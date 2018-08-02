@@ -1,7 +1,7 @@
 package com.tencent.qcloud.uikit.business.contact.presenter;
 
+import com.tencent.qcloud.uikit.api.contact.IContactPanel;
 import com.tencent.qcloud.uikit.business.contact.model.ContactManager;
-import com.tencent.qcloud.uikit.business.contact.view.ContactPanel;
 import com.tencent.qcloud.uikit.common.ILiveUICallback;
 import com.tencent.qcloud.uikit.common.utils.UIUtils;
 
@@ -11,10 +11,10 @@ import com.tencent.qcloud.uikit.common.utils.UIUtils;
 
 public class ContactPresenter {
 
-    private ContactPanel mView;
+    private IContactPanel mView;
     public ContactManager manager = ContactManager.getInstance();
 
-    public ContactPresenter(ContactPanel panel) {
+    public ContactPresenter(IContactPanel panel) {
         mView = panel;
         loadContact();
     }

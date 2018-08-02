@@ -1,6 +1,7 @@
 package com.tencent.qcloud.uikit.api.contact;
 
 import com.tencent.TIMUserProfile;
+import com.tencent.qcloud.uikit.business.contact.model.ContactInfoBean;
 
 import java.util.List;
 
@@ -10,9 +11,9 @@ import java.util.List;
 
 public interface IContactDataProvider {
 
-    public List<TIMUserProfile> getDataSource();
+    public List<ContactInfoBean> getDataSource();
 
-    public void addContact(TIMUserProfile contact);
+    public void addContact(ContactInfoBean contact);
 
     public void deleteContact(String contactName);
 }

@@ -36,4 +36,11 @@
     <declare-styleable name="swipelistviewstyle">
         <attr name="right_width" format="dimension"></attr>
     </declare-styleable>
+
+    <attr name="indexBarTextSize" format="dimension" />
+
+    <declare-styleable name="IndexBar">
+        <attr name="indexBarTextSize" />
+        <attr name="indexBarPressBackground" format="color" />
+    </declare-styleable>
 </resources>

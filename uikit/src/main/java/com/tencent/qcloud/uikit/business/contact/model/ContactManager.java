@@ -38,7 +38,12 @@ public class ContactManager {
 
             @Override
             public void onSuccess(List<TIMUserProfile> timUserProfiles) {
-                mProvider.dataSource = timUserProfiles;
+                List datas = new ArrayList<ContactInfoBean>();
+                for (int i = 0; i < timUserProfiles.size(); i++) {
+                    ContactInfoBean infoBean = new ContactInfoBean();
+                    infoBean.setUserProfile(timUserProfiles.get(i));
+                }
+                mProvider.dataSource = datas;
                 if (callback != null) {
                     callback.onSuccess(mProvider);
                 }
@@ -67,7 +72,9 @@ public class ContactManager {
                 FriendProfile profile = new FriendProfile();
                 profile.setSIdentifier(identifier);
                 TIMUserProfile userProfile = new TIMUserProfile(profile);
-                mProvider.addContact(userProfile);
+                ContactInfoBean infoBean = new ContactInfoBean();
+                infoBean.setUserProfile(userProfile);
+                mProvider.addContact(infoBean);
                 if (callback != null)
                     callback.onSuccess(timFriendResults);
             }

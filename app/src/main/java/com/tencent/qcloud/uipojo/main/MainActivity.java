@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.tencent.qcloud.uipojo.R;
+import com.tencent.qcloud.uipojo.contact.view.ContactFragment;
 import com.tencent.qcloud.uipojo.session.SessionFragment;
 
 /**
@@ -16,6 +17,7 @@ import com.tencent.qcloud.uipojo.session.SessionFragment;
 public class MainActivity extends Activity {
 
     private SessionFragment sessionFragment;
+    private ContactFragment contactFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +43,9 @@ public class MainActivity extends Activity {
                 current = sessionFragment;
                 break;
             case R.id.contact:
+                if (contactFragment == null)
+                    contactFragment = new ContactFragment();
+                current = contactFragment;
                 break;
             case R.id.mine:
                 break;

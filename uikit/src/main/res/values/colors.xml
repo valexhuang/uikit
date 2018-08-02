@@ -21,5 +21,5 @@
     <color name="right_bg">#696969</color>
     <color name="preview_bottom_toolbar_bg">#CC000000</color>
     <color name="preview_bottom_size">#61FFFFFF</color>
-
+    <color name="partTranslucent">#39000000</color>
 </resources>

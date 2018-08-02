@@ -11,25 +11,20 @@ import java.util.List;
  */
 
 public class ContactProvider implements IContactDataProvider {
-    public List<TIMUserProfile> dataSource = new ArrayList<>();
+    public List<ContactInfoBean> dataSource = new ArrayList<>();
 
     @Override
-    public List<TIMUserProfile> getDataSource() {
+    public List<ContactInfoBean> getDataSource() {
         return dataSource;
     }
 
     @Override
-    public void addContact(TIMUserProfile contact) {
+    public void addContact(ContactInfoBean contact) {
         dataSource.add(contact);
     }
 
     @Override
     public void deleteContact(String identifier) {
-        for (int i = 0; i < dataSource.size(); i++) {
-            if (dataSource.get(i).getIdentifier().equals(identifier)) {
-                dataSource.remove(i);
-            }
-            break;
-        }
+
     }
 }

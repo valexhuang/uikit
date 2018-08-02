@@ -26,7 +26,7 @@ public class MainContactActivity extends Activity {
     public void selectActivity(View view) {
         switch (view.getId()) {
             case R.id.normal_contact:
-                Intent intent = new Intent(this, ContactActivity.class);
+                Intent intent = new Intent(this, ContactFragment.class);
                 startActivity(intent);
                 break;
             case R.id.star_contact:

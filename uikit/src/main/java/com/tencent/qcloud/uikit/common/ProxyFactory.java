@@ -1,5 +1,6 @@
 package com.tencent.qcloud.uikit.common;
 
+import android.support.v7.widget.RecyclerView;
 import android.widget.BaseAdapter;
 
 import com.tencent.qcloud.uikit.api.contact.IContactDataProvider;
@@ -13,7 +14,7 @@ import java.lang.reflect.Proxy;
  */
 
 public class ProxyFactory {
-    public static IContactDataProvider createContactProviderProxy(IContactDataProvider provider, BaseAdapter adapter) {
+    public static IContactDataProvider createContactProviderProxy(IContactDataProvider provider, RecyclerView.Adapter adapter) {
         ProxySubject proxy = new ProxySubject(provider, adapter);
         IContactDataProvider sub = (IContactDataProvider) Proxy.newProxyInstance(provider.getClass().getClassLoader(),
                 provider.getClass().getInterfaces(), proxy);
@@ -23,9 +24,9 @@ public class ProxyFactory {
 
     public static class ProxySubject implements InvocationHandler {
         protected Object subject;
-        private BaseAdapter adapter;
+        private RecyclerView.Adapter adapter;
 
-        public ProxySubject(Object subject, BaseAdapter adapter) {
+        public ProxySubject(Object subject, RecyclerView.Adapter adapter) {
             this.subject = subject;
             this.adapter = adapter;
         }

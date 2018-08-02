@@ -2,6 +2,7 @@ package com.tencent.qcloud.uipojo.contact.model;
 
 import com.tencent.TIMUserProfile;
 import com.tencent.qcloud.uikit.api.contact.IContactDataProvider;
+import com.tencent.qcloud.uikit.business.contact.model.ContactInfoBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,25 +12,20 @@ import java.util.List;
  */
 
 public class PojoContactProvider implements IContactDataProvider {
-    List<TIMUserProfile> dataSouce = new ArrayList<>();
+    List<ContactInfoBean> dataSouce = new ArrayList<>();
 
     @Override
-    public List<TIMUserProfile> getDataSource() {
+    public List<ContactInfoBean> getDataSource() {
         return dataSouce;
     }
 
     @Override
-    public void addContact(TIMUserProfile contact) {
+    public void addContact(ContactInfoBean contact) {
         dataSouce.add(contact);
     }
 
     @Override
     public void deleteContact(String identifier) {
-        for (int i = 0; i < dataSouce.size(); i++) {
-            if (dataSouce.get(i).getIdentifier().equals(identifier)) {
-                dataSouce.remove(i);
-                return;
-            }
-        }
+
     }
 }

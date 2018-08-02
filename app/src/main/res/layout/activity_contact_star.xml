@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.tencent.qcloud.uipojo.contact.view.ContactActivity">
+    tools:context="com.tencent.qcloud.uipojo.contact.view.ContactFragment">
 
     <com.tencent.qcloud.quiteui.business.contact.view.ContactPanel
         android:id="@+id/star_contact_panel"

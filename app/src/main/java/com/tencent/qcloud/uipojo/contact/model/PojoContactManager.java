@@ -3,6 +3,7 @@ package com.tencent.qcloud.uipojo.contact.model;
 import com.tencent.TIMUserProfile;
 import com.tencent.imcore.FriendProfile;
 import com.tencent.qcloud.uikit.api.contact.IContactDataProvider;
+import com.tencent.qcloud.uikit.business.contact.model.ContactInfoBean;
 
 /**
  * Created by Administrator on 2018/7/3.
@@ -27,7 +28,9 @@ public class PojoContactManager {
             FriendProfile profile = new FriendProfile();
             profile.setSIdentifier(userName);
             TIMUserProfile userProfile = new TIMUserProfile(profile);
-            dataProvider.addContact(userProfile);
+            ContactInfoBean infoBean = new ContactInfoBean();
+            infoBean.setUserProfile(userProfile);
+            dataProvider.addContact(infoBean);
             callback.onSuccess(userName);
         }
 
@@ -53,10 +56,7 @@ public class PojoContactManager {
     }
 
     private boolean checkValid(String identifier) {
-        for (int i = 0; i < dataProvider.getDataSource().size(); i++) {
-            if (dataProvider.getDataSource().get(i).getIdentifier().equals(identifier))
-                return true;
-        }
+
         return false;
     }
 
