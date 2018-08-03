@@ -1,5 +1,7 @@
 package com.tencent.qcloud.uikit.business.chat.view.widget;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +18,9 @@ import com.tencent.qcloud.uikit.ILiveUIKit;
 import com.tencent.qcloud.uikit.R;
 import com.tencent.qcloud.uikit.business.chat.model.ILiveAudioMachine;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfo;
+import com.tencent.qcloud.uikit.common.ILiveConstants;
 import com.tencent.qcloud.uikit.common.component.face.FaceManager;
+import com.tencent.qcloud.uikit.common.component.video.VideoViewActivity;
 import com.tencent.qcloud.uikit.common.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -41,6 +45,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
                 holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
                 break;
             case MessageInfo.MSG_TYPE_IMAGE:
+            case MessageInfo.MSG_TYPE_VIDEO:
                 holder = new ChatImageHolder(inflater.inflate(R.layout.chat_adapter_image, parent, false));
                 break;
             case MessageInfo.MSG_TYPE_AUDIO:
@@ -84,10 +89,25 @@ public class ChatAdapter extends RecyclerView.Adapter {
                 //msgHolder.msg.setText(msg.getMsg());
                 FaceManager.handlerEmojiText(msgHolder.msg, msg.getMsg());
                 break;
+            case MessageInfo.MSG_TYPE_VIDEO:
             case MessageInfo.MSG_TYPE_IMAGE:
-                ChatImageHolder imgHolder = (ChatImageHolder) chatHolder;
+                final ChatImageHolder imgHolder = (ChatImageHolder) chatHolder;
+                if (getItemViewType(position) == MessageInfo.MSG_TYPE_VIDEO) {
+                    imgHolder.imgData.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(ILiveUIKit.getAppContext(), VideoViewActivity.class);
+                            intent.putExtra(ILiveConstants.CAMERA_IMAGE_PATH, msg.getBitmapPath());
+                            intent.putExtra(ILiveConstants.CAMERA_VIDEO_PATH, msg.getDataPath());
+                            ILiveUIKit.getAppContext().startActivity(intent);
+                        }
+                    });
+                } else {
+                    imgHolder.imgData.setOnClickListener(null);
+                }
+
                 imgHolder.imgData.setVisibility(View.VISIBLE);
-                imgHolder.imgData.setImageBitmap(msg.getMsgBitamp());
+                imgHolder.imgData.setImageBitmap(msg.getMsgBitmap());
                 break;
             case MessageInfo.MSG_TYPE_AUDIO:
                 final ChatAudioHolder audioHolder = (ChatAudioHolder) chatHolder;

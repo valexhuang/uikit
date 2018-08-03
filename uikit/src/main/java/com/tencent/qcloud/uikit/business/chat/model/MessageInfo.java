@@ -1,6 +1,7 @@
 package com.tencent.qcloud.uikit.business.chat.model;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 /**
  * Created by valxehuang on 2018/7/18.
@@ -20,9 +21,11 @@ public class MessageInfo {
     private String msg;
     private int msgType;
     private String dataPath;
+    private Uri dataUri;
     private String fromUserIcon;
     private byte[] msgByteData;
-    private Bitmap msgBitamp;
+    private String bitmapPath;
+    private Bitmap msgBitmap;
     private boolean self;
     private boolean read;
     private int audioTime;
@@ -75,6 +78,14 @@ public class MessageInfo {
         this.dataPath = dataPath;
     }
 
+    public Uri getDataUri() {
+        return dataUri;
+    }
+
+    public void setDataUri(Uri dataUri) {
+        this.dataUri = dataUri;
+    }
+
     public String getFromUserIcon() {
         return fromUserIcon;
     }
@@ -99,12 +110,20 @@ public class MessageInfo {
         this.self = self;
     }
 
-    public Bitmap getMsgBitamp() {
-        return msgBitamp;
+    public String getBitmapPath() {
+        return bitmapPath;
     }
 
-    public void setMsgBitamp(Bitmap msgBitamp) {
-        this.msgBitamp = msgBitamp;
+    public void setBitmapPath(String bitmapPath) {
+        this.bitmapPath = bitmapPath;
+    }
+
+    public Bitmap getMsgBitmap() {
+        return msgBitmap;
+    }
+
+    public void setMsgBitmap(Bitmap msgBitmap) {
+        this.msgBitmap = msgBitmap;
     }
 
     public boolean isRead() {

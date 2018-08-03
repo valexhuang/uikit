@@ -28,9 +28,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,6 +41,7 @@ import android.widget.TextView;
 
 import com.tencent.ilivesdk.ILiveCallBack;
 import com.tencent.qcloud.uikit.R;
+import com.tencent.qcloud.uikit.common.ILiveConstants;
 import com.tencent.qcloud.uikit.common.component.picture.internal.entity.Album;
 import com.tencent.qcloud.uikit.common.component.picture.internal.entity.Item;
 import com.tencent.qcloud.uikit.common.component.picture.internal.entity.SelectionSpec;
@@ -57,7 +60,10 @@ import com.tencent.qcloud.uikit.common.component.picture.internal.utils.MediaSto
 import com.tencent.qcloud.uikit.common.component.picture.internal.utils.PathUtils;
 import com.tencent.qcloud.uikit.common.component.picture.internal.utils.PhotoMetadataUtils;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Main Activity to display albums and media content (images/videos) in each album
@@ -223,23 +229,30 @@ public class MatisseActivity extends AppCompatActivity implements
             }
         } else if (requestCode == REQUEST_CODE_CAPTURE) {
             // Just pass the data back to previous calling Activity.
-            Uri contentUri = mMediaStoreCompat.getCurrentPhotoUri();
-            String path = mMediaStoreCompat.getCurrentPhotoPath();
+            String imagePath = data.getStringExtra(ILiveConstants.CAMERA_IMAGE_PATH);
+            Uri contentUri = Uri.fromFile(new File(imagePath));
             ArrayList<Uri> selected = new ArrayList<>();
             selected.add(contentUri);
-            ArrayList<String> selectedPath = new ArrayList<>();
-            selectedPath.add(path);
-            Intent result = new Intent();
-            result.putParcelableArrayListExtra(EXTRA_RESULT_SELECTION, selected);
-            result.putStringArrayListExtra(EXTRA_RESULT_SELECTION_PATH, selectedPath);
-            setResult(RESULT_OK, result);
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
                 MatisseActivity.this.revokeUriPermission(contentUri,
                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-            if (mCallback != null) {
-                mCallback.onSuccess(selected);
+            String videoPath = data.getStringExtra(ILiveConstants.CAMERA_VIDEO_PATH);
+            if (!TextUtils.isEmpty(videoPath)) {
+                Uri videoUri = Uri.fromFile(new File(videoPath));
+                Map videoRes = new HashMap();
+                videoRes.put(ILiveConstants.CAMERA_IMAGE_PATH, contentUri);
+                videoRes.put(ILiveConstants.CAMERA_VIDEO_PATH, videoUri);
+                if (mCallback != null) {
+                    mCallback.onSuccess(videoRes);
+                }
+            } else {
+                if (mCallback != null) {
+                    mCallback.onSuccess(selected);
+                }
             }
+
+
             finish();
         }
     }

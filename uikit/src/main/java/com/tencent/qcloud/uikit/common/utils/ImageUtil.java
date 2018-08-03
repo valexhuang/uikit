@@ -17,6 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 
 /**
  * Created by valxehuang on 2018/7/25.
@@ -58,7 +59,7 @@ public class ImageUtil {
             input = ILiveUIKit.getAppContext().getContentResolver().openInputStream(uri);
             bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
 
-            String path = ILiveConstants.SD_CARD_PATH + "/Pictures" + (uri.toString().split("my_images"))[1];
+            String path = new URI(uri.toString()).getPath();
             int degree = getBitmapDegree(path);
             input.close();
             compressImage(bitmap);
@@ -67,8 +68,12 @@ public class ImageUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return bitmap;//再进行质量压缩
+    }
+
+
+    public static Bitmap getBitmapFormUri(String path) {
+        return getBitmapFormUri(Uri.fromFile(new File(path)));
     }
 
     public static Bitmap compressImage(Bitmap image) {

@@ -26,16 +26,20 @@ import com.tencent.qcloud.uikit.business.chat.model.ILiveAudioMachine;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfo;
 import com.tencent.qcloud.uikit.business.chat.view.widget.ChatActionsFragment;
 import com.tencent.qcloud.uikit.business.chat.view.widget.ChatBottomAction;
+import com.tencent.qcloud.uikit.common.ILiveConstants;
 import com.tencent.qcloud.uikit.common.component.face.Emoji;
 import com.tencent.qcloud.uikit.common.component.face.FaceFragment;
 import com.tencent.qcloud.uikit.common.component.face.FaceManager;
 import com.tencent.qcloud.uikit.common.component.picture.Matisse;
+import com.tencent.qcloud.uikit.common.utils.FileUtil;
 import com.tencent.qcloud.uikit.common.utils.ImageUtil;
 import com.tencent.qcloud.uikit.common.utils.SoftKeyBoardUtil;
 import com.tencent.qcloud.uikit.common.utils.UIUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by valxehuang on 2018/7/18.
@@ -172,10 +176,16 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
                 Matisse.defaultFrom(activity, new ILiveCallBack() {
                     @Override
                     public void onSuccess(Object data) {
-                        List<Uri> uris = (List<Uri>) data;
-                        for (int i = 0; i < uris.size(); i++) {
-                            MessageInfo msg = buildImageMessage(uris.get(i));
+                        if (data instanceof Map) {
+                            Map videoRes = (Map) data;
+                            MessageInfo msg = buildVideoMessage((Uri) videoRes.get(ILiveConstants.CAMERA_IMAGE_PATH), (Uri) videoRes.get(ILiveConstants.CAMERA_VIDEO_PATH));
                             bottomHandler.sendMessage(msg);
+                        } else {
+                            List<Uri> uris = (List<Uri>) data;
+                            for (int i = 0; i < uris.size(); i++) {
+                                MessageInfo msg = buildImageMessage(uris.get(i));
+                                bottomHandler.sendMessage(msg);
+                            }
                         }
                     }
 
@@ -340,7 +350,18 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
         MessageInfo info = new MessageInfo();
         info.setSelf(true);
         info.setMsgType(MessageInfo.MSG_TYPE_IMAGE);
-        info.setMsgBitamp(ImageUtil.getBitmapFormUri(uri));
+        info.setMsgBitmap(ImageUtil.getBitmapFormUri(uri));
+        return info;
+    }
+
+    private MessageInfo buildVideoMessage(Uri imgUri, Uri videoUri) {
+        MessageInfo info = new MessageInfo();
+        info.setSelf(true);
+        info.setMsgType(MessageInfo.MSG_TYPE_VIDEO);
+        info.setDataUri(videoUri);
+        info.setDataPath(FileUtil.getPathFromUri(videoUri));
+        info.setMsgBitmap(ImageUtil.getBitmapFormUri(imgUri));
+        info.setBitmapPath(FileUtil.getPathFromUri(imgUri));
         return info;
     }
 
