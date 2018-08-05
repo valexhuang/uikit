@@ -98,7 +98,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
                         public void onClick(View v) {
                             Intent intent = new Intent(ILiveUIKit.getAppContext(), VideoViewActivity.class);
                             intent.putExtra(ILiveConstants.CAMERA_IMAGE_PATH, msg.getBitmapPath());
-                            intent.putExtra(ILiveConstants.CAMERA_VIDEO_PATH, msg.getDataPath());
+                            intent.putExtra(ILiveConstants.CAMERA_VIDEO_PATH, msg.getDataUri());
                             ILiveUIKit.getAppContext().startActivity(intent);
                         }
                     });

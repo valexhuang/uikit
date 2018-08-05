@@ -70,7 +70,7 @@ public class PageTitleBar extends LinearLayout {
     }
 
     public LinearLayout getRightGroup() {
-        return mLeftGroup;
+        return mRightGroup;
     }
 
 
