@@ -2,6 +2,8 @@ package com.tencent.qcloud.uikit.common.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,11 +50,11 @@ public class PopWindowUtil {
         return dialog;
     }
 
-    public static final AlertDialog buildEditorDialog(Activity context, String title, String content,
+    public static final AlertDialog buildEditorDialog(Context context, String title, String content,
                                                       String cancel, String sure, final EnsureListener listener) {
-
-        if (context.isDestroyed()) {
-            return null;
+        if (context instanceof Activity) {
+            if (((Activity) context).isDestroyed())
+                return null;
         }
 
         final AlertDialog dialog;

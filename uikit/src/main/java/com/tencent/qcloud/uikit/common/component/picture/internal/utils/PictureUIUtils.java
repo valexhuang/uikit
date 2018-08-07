@@ -17,7 +17,7 @@ package com.tencent.qcloud.uikit.common.component.picture.internal.utils;
 
 import android.content.Context;
 
-public class UIUtils {
+public class PictureUIUtils {
 
     public static int spanCount(Context context, int gridExpectedSize) {
         int screenWidth = context.getResources().getDisplayMetrics().widthPixels;

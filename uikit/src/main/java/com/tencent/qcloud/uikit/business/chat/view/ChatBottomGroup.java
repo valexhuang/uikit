@@ -3,6 +3,7 @@ package com.tencent.qcloud.uikit.business.chat.view;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -24,6 +25,7 @@ import com.tencent.ilivesdk.ILiveCallBack;
 import com.tencent.qcloud.uikit.R;
 import com.tencent.qcloud.uikit.business.chat.model.ILiveAudioMachine;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfo;
+import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
 import com.tencent.qcloud.uikit.business.chat.view.widget.ChatActionsFragment;
 import com.tencent.qcloud.uikit.business.chat.view.widget.ChatBottomAction;
 import com.tencent.qcloud.uikit.common.ILiveConstants;
@@ -31,12 +33,9 @@ import com.tencent.qcloud.uikit.common.component.face.Emoji;
 import com.tencent.qcloud.uikit.common.component.face.FaceFragment;
 import com.tencent.qcloud.uikit.common.component.face.FaceManager;
 import com.tencent.qcloud.uikit.common.component.picture.Matisse;
-import com.tencent.qcloud.uikit.common.utils.FileUtil;
-import com.tencent.qcloud.uikit.common.utils.ImageUtil;
 import com.tencent.qcloud.uikit.common.utils.SoftKeyBoardUtil;
 import com.tencent.qcloud.uikit.common.utils.UIUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -151,7 +150,7 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
                     if (motionEvent.getY() - startRecordY < -100) {
                         UIUtils.toastLongMessage("已取消");
                     } else {
-                        bottomHandler.sendMessage(buildAudioMessage());
+                        bottomHandler.sendMessage(MessageInfoUtil.buildAudioMessage());
                         UIUtils.toastLongMessage("已发送");
                     }
                     ILiveAudioMachine.getInstance().stopRecord();
@@ -178,12 +177,12 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
                     public void onSuccess(Object data) {
                         if (data instanceof Map) {
                             Map videoRes = (Map) data;
-                            MessageInfo msg = buildVideoMessage((Uri) videoRes.get(ILiveConstants.CAMERA_IMAGE_PATH), (Uri) videoRes.get(ILiveConstants.CAMERA_VIDEO_PATH));
+                            MessageInfo msg = MessageInfoUtil.buildVideoMessage((Uri) videoRes.get(ILiveConstants.CAMERA_IMAGE_PATH), (Uri) videoRes.get(ILiveConstants.CAMERA_VIDEO_PATH));
                             bottomHandler.sendMessage(msg);
                         } else {
                             List<Uri> uris = (List<Uri>) data;
                             for (int i = 0; i < uris.size(); i++) {
-                                MessageInfo msg = buildImageMessage(uris.get(i));
+                                MessageInfo msg = MessageInfoUtil.buildImageMessage(uris.get(i));
                                 bottomHandler.sendMessage(msg);
                             }
                         }
@@ -194,6 +193,56 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
 
                     }
                 });
+            }
+        });
+        actions.add(action);
+        action = new ChatBottomAction();
+        action.setIconResId(R.drawable.action_video_selector);
+        action.setTitleId(R.string.action_file);
+        action.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               /* new LFilePicker()
+                        .withActivity((Activity) getContext())
+                        .withRequestCallback(new ILiveCallBack() {
+                            @Override
+                            public void onSuccess(Object data) {
+                                MessageInfo info = MessageInfoUtil.buildFileMessage(data.toString());
+                                bottomHandler.sendMessage(info);
+                            }
+
+                            @Override
+                            public void onError(String module, int errCode, String errMsg) {
+                                UIUtils.toastLongMessage(errMsg);
+                            }
+                        })
+                        .withTitle("文件选择")
+                        .withMutilyMode(false)
+                        .withMaxNum(2)
+                        .withStartPath("/storage/emulated/0/Download")//指定初始显示路径
+                        .withNotFoundBooks("至少选择一个文件")
+                        .withIsGreater(false)//过滤文件大小 小于指定大小的文件
+                        .withFileSize(500 * 1024)//指定文件大小为500K
+                        .withChooseMode(true)//文件夹选择模式
+                        //.withFileFilter(new String[]{"txt", "png", "docx"})
+                        .start();*/
+
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("*/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                actionsFragment.setCallback(new ILiveCallBack() {
+                    @Override
+                    public void onSuccess(Object data) {
+                        MessageInfo info = MessageInfoUtil.buildFileMessage((Uri) data);
+                        bottomHandler.sendMessage(info);
+                    }
+
+                    @Override
+                    public void onError(String module, int errCode, String errMsg) {
+                        UIUtils.toastLongMessage(errMsg);
+                    }
+                });
+                actionsFragment.startActivityForResult(intent, ChatActionsFragment.REQUEST_CODE_FILE);
             }
         });
         actions.add(action);
@@ -249,7 +298,7 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
 
         } else if (view.getId() == R.id.more_btn) {
             if (sendAble) {
-                bottomHandler.sendMessage(buildMessage());
+                bottomHandler.sendMessage(MessageInfoUtil.buildAudioMessage());
             } else {
                 if (actionsFragment != null && actionsFragment.isVisible()) {
                     showSoftInput();
@@ -336,41 +385,6 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
         hideSoftInput();
         moreGroup.setVisibility(View.VISIBLE);
         fragmentManager.beginTransaction().replace(R.id.more_groups, actionsFragment).commitAllowingStateLoss();
-    }
-
-    private MessageInfo buildMessage() {
-        MessageInfo info = new MessageInfo();
-        info.setMsg(msgEditor.getText().toString());
-        info.setSelf(true);
-        return info;
-    }
-
-
-    private MessageInfo buildImageMessage(Uri uri) {
-        MessageInfo info = new MessageInfo();
-        info.setSelf(true);
-        info.setMsgType(MessageInfo.MSG_TYPE_IMAGE);
-        info.setMsgBitmap(ImageUtil.getBitmapFormUri(uri));
-        return info;
-    }
-
-    private MessageInfo buildVideoMessage(Uri imgUri, Uri videoUri) {
-        MessageInfo info = new MessageInfo();
-        info.setSelf(true);
-        info.setMsgType(MessageInfo.MSG_TYPE_VIDEO);
-        info.setDataUri(videoUri);
-        info.setDataPath(FileUtil.getPathFromUri(videoUri));
-        info.setMsgBitmap(ImageUtil.getBitmapFormUri(imgUri));
-        info.setBitmapPath(FileUtil.getPathFromUri(imgUri));
-        return info;
-    }
-
-    private MessageInfo buildAudioMessage() {
-        MessageInfo info = new MessageInfo();
-        info.setDataPath(ILiveAudioMachine.getInstance().getRecordAudioPath());
-        info.setSelf(true);
-        info.setMsgType(MessageInfo.MSG_TYPE_AUDIO);
-        return info;
     }
 
     public interface ChatBottomHandler {

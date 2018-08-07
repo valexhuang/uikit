@@ -51,6 +51,9 @@ public class ChatAdapter extends RecyclerView.Adapter {
             case MessageInfo.MSG_TYPE_AUDIO:
                 holder = new ChatAudioHolder(inflater.inflate(R.layout.chat_adapter_audio, parent, false));
                 break;
+            case MessageInfo.MSG_TYPE_FILE:
+                holder = new ChatAudioHolder(inflater.inflate(R.layout.chat_adapter_file, parent, false));
+                break;
         }
 
         return holder;

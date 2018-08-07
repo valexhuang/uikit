@@ -74,7 +74,7 @@ public class MediaStoreCompat {
 
     public void dispatchCaptureIntent(Context context, int requestCode) {
         Intent captureIntent = new Intent(context, CameraActivity.class);
-        File photoFile = null;
+      /*  File photoFile = null;
         try {
             photoFile = createImageFile();
         } catch (IOException e) {
@@ -94,13 +94,13 @@ public class MediaStoreCompat {
                     context.grantUriPermission(packageName, mCurrentPhotoUri,
                             Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 }
-            }
-            if (mFragment != null) {
-                mFragment.get().startActivityForResult(captureIntent, requestCode);
-            } else {
-                mContext.get().startActivityForResult(captureIntent, requestCode);
-            }
+            }*/
+        if (mFragment != null) {
+            mFragment.get().startActivityForResult(captureIntent, requestCode);
+        } else {
+            mContext.get().startActivityForResult(captureIntent, requestCode);
         }
+        //}
 
     }
 

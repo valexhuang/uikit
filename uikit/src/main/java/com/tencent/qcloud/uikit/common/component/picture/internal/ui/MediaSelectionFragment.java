@@ -34,7 +34,7 @@ import com.tencent.qcloud.uikit.common.component.picture.internal.model.AlbumMed
 import com.tencent.qcloud.uikit.common.component.picture.internal.model.SelectedItemCollection;
 import com.tencent.qcloud.uikit.common.component.picture.internal.ui.adapter.AlbumMediaAdapter;
 import com.tencent.qcloud.uikit.common.component.picture.internal.ui.widget.MediaGridInset;
-import com.tencent.qcloud.uikit.common.component.picture.internal.utils.UIUtils;
+import com.tencent.qcloud.uikit.common.component.picture.internal.utils.PictureUIUtils;
 
 public class MediaSelectionFragment extends Fragment implements
         AlbumMediaCollection.AlbumMediaCallbacks, AlbumMediaAdapter.CheckStateListener,
@@ -100,7 +100,7 @@ public class MediaSelectionFragment extends Fragment implements
         int spanCount;
         SelectionSpec selectionSpec = SelectionSpec.getInstance();
         if (selectionSpec.gridExpectedSize > 0) {
-            spanCount = UIUtils.spanCount(getContext(), selectionSpec.gridExpectedSize);
+            spanCount = PictureUIUtils.spanCount(getContext(), selectionSpec.gridExpectedSize);
         } else {
             spanCount = selectionSpec.spanCount;
         }

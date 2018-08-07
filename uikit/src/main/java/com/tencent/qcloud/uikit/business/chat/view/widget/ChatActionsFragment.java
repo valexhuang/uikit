@@ -1,14 +1,21 @@
 package com.tencent.qcloud.uikit.business.chat.view.widget;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.tencent.ilivesdk.ILiveCallBack;
 import com.tencent.qcloud.uikit.R;
 import com.tencent.qcloud.uikit.common.BaseFragment;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -20,7 +27,9 @@ public class ChatActionsFragment extends BaseFragment {
     private View baseView;
     private BottomBoxWave panelWave = new BottomBoxWave();
     private List<ChatBottomAction> actions;
+    private ILiveCallBack mCallback;
 
+    public static final int REQUEST_CODE_FILE = 1011;
 
     @Nullable
     @Override
@@ -32,5 +41,20 @@ public class ChatActionsFragment extends BaseFragment {
 
     public void setActions(List<ChatBottomAction> actions) {
         this.actions = actions;
+    }
+
+    public void setCallback(ILiveCallBack callback) {
+        mCallback = callback;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_FILE) {
+            if (resultCode != -1)
+                return;
+            Uri uri = data.getData();//得到uri，后面就是将uri转化成file的过程。
+            if (mCallback != null)
+                mCallback.onSuccess(uri);
+        }
     }
 }

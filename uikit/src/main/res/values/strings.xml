@@ -15,6 +15,7 @@
   -->
 <resources>
     <string name="cancel">取消</string>
+    <string name="sure">确定</string>
     <string name="album_name_all">全部</string>
     <string name="button_preview">预览</string>
     <string name="button_apply_default">使用</string>
@@ -151,8 +152,10 @@
     <string name="action_photo">图片</string>
     <string name="action_video">视频</string>
     <string name="action_location">位置</string>
+    <string name="action_file">文件</string>
 
-
+    <string name="self">我</string>
+    <string name="user_sex">性别</string>
     <string name="user_location">所在地</string>
     <string name="user_birthday">生日</string>
     <string name="chat_to_top">置顶聊天</string>
@@ -160,6 +163,10 @@
     <string name="add_friend">添加好友</string>
     <string name="del_friend">删除好友</string>
     <string name="add_to_blacklist">加入黑名单</string>
+    <string name="add_rule">添加好友认证方式</string>
+    <string name="settings">设置</string>
+    <string name="modify_nick_name">修改昵称</string>
+    <string name="modify_signature">修改个性签名</string>
 
     <string name="group_members">群成员</string>
     <string name="group_type">群类型</string>
@@ -173,4 +180,13 @@
     <string name="record_cancel_tips">手指上滑，取消发送</string>
     <string name="contacts">联系人</string>
 
+
+    <string name="pickerview_cancel">取消</string>
+    <string name="pickerview_submit">确定</string>
+    <string name="pickerview_year">年</string>
+    <string name="pickerview_month">月</string>
+    <string name="pickerview_day">日</string>
+    <string name="pickerview_hours">时</string>
+    <string name="pickerview_minutes">分</string>
+    <string name="pickerview_seconds">秒</string>
 </resources>
