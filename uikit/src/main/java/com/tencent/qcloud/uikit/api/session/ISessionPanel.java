@@ -2,7 +2,6 @@ package com.tencent.qcloud.uikit.api.session;
 
 import com.tencent.qcloud.uikit.api.contact.IContactDataProvider;
 import com.tencent.qcloud.uikit.business.session.view.wedgit.PopMenuAction;
-import com.tencent.qcloud.uikit.business.session.view.wedgit.SessionPanelEvent;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 
 import java.util.List;
@@ -15,9 +14,13 @@ public interface ISessionPanel {
 
     PageTitleBar pageTitleBar();
 
-    void addPopActions(List<PopMenuAction> actions);
+    void addTopPopActions(List<PopMenuAction> actions);
 
-    void setContactPanelEvent(SessionPanelEvent event);
+    void addItemPopActions(List<PopMenuAction> actions);
+
+    void setItemLeftSlideAble(boolean enbale);
+
+    void setSessionListEvent(SessionListEvent event);
 
     void setDataProvider(ISessionProvider provider);
 

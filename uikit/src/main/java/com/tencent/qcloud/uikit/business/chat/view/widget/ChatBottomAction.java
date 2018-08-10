@@ -11,6 +11,8 @@ public class ChatBottomAction {
 
     private int titleId;
 
+    private String action;
+
     private View.OnClickListener onClickListener;
 
     public int getIconResId() {
@@ -27,6 +29,14 @@ public class ChatBottomAction {
 
     public void setTitleId(int titleId) {
         this.titleId = titleId;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 
     public View.OnClickListener getOnClickListener() {

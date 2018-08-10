@@ -18,7 +18,7 @@ import com.tencent.qcloud.uikit.api.session.ISessionProvider;
 import com.tencent.qcloud.uikit.business.session.presenter.SessionPresenter;
 import com.tencent.qcloud.uikit.business.session.view.wedgit.PopMenuAction;
 import com.tencent.qcloud.uikit.business.session.view.wedgit.SessionAdapter;
-import com.tencent.qcloud.uikit.business.session.view.wedgit.SessionPanelEvent;
+import com.tencent.qcloud.uikit.api.session.SessionListEvent;
 import com.tencent.qcloud.uikit.business.session.view.wedgit.SessionPopMenuAdapter;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 import com.tencent.qcloud.uikit.common.utils.PopWindowUtil;
@@ -33,7 +33,7 @@ import java.util.List;
 public class SessionPanel extends RelativeLayout implements ISessionPanel {
     private ListView mPopMenuList, mItemPopMenuList;
     private SessionListView mSessionList;
-    private SessionPanelEvent mSessionEvent;
+    private SessionListEvent mSessionEvent;
     private SessionAdapter mAdapter;
     private SessionPopMenuAdapter mMenuAdapter, mItemMenuAdapter;
     private SessionPresenter mPresenter;
@@ -141,13 +141,23 @@ public class SessionPanel extends RelativeLayout implements ISessionPanel {
 
 
     @Override
-    public void addPopActions(List<PopMenuAction> actions) {
+    public void addTopPopActions(List<PopMenuAction> actions) {
+
+    }
+
+    @Override
+    public void addItemPopActions(List<PopMenuAction> actions) {
+
+    }
+
+    @Override
+    public void setItemLeftSlideAble(boolean enbale) {
 
     }
 
 
     @Override
-    public void setContactPanelEvent(SessionPanelEvent event) {
+    public void setSessionListEvent(SessionListEvent event) {
         this.mSessionEvent = event;
     }
 

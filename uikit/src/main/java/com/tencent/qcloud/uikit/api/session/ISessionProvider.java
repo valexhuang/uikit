@@ -12,8 +12,10 @@ public interface ISessionProvider {
 
     public List<SessionInfo> getDataSource();
 
-    public void addSession(SessionInfo session);
+    public boolean addSession(SessionInfo session);
 
-    public void deleteSession(SessionInfo session);
+    public boolean deleteSession(SessionInfo session);
+
+    public boolean updateSession(SessionInfo session);
 
 }

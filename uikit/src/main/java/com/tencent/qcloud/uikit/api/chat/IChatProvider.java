@@ -12,8 +12,10 @@ public interface IChatProvider {
 
     public List<MessageInfo> getDataSource();
 
-    public void addMessageInfo(MessageInfo session);
+    public boolean addMessageInfo(MessageInfo message);
 
-    public void deleteMessageInfo(MessageInfo session);
+    public boolean deleteMessageInfo(MessageInfo message);
+
+    public boolean updateMessageInfo(MessageInfo message);
 
 }

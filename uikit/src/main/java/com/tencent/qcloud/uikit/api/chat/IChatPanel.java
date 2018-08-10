@@ -14,13 +14,15 @@ import java.util.List;
 
 public interface IChatPanel {
 
+    PageTitleBar getTitleBar();
+
     void setChatPanelEvent(ChatPanelEvent event);
 
     void setDataProvider(IChatProvider provider);
 
-    void setBaseInfo(BaseInfoBean info);
+    IChatProvider setProxyDataProvider(IChatProvider provider);
 
-    IContactDataProvider setProxyDataProvider(IChatProvider provider);
+    void setBaseChatInfo(BaseInfoBean info);
 
     void refreshData();
 
@@ -28,5 +30,5 @@ public interface IChatPanel {
 
     void setBottomActions(List<ChatBottomAction> actions);
 
-    PageTitleBar getTitleBar();
+
 }

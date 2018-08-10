@@ -57,6 +57,7 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
     private FragmentManager fragmentManager;
     private List<ChatBottomAction> actions = new ArrayList<>();
 
+    private static final int STATE_NONE_INPUT = -1;
     private static final int STATE_SOFT_INPUT = 0;
     private static final int STATE_VOICE_INPUT = 1;
     private static final int STATE_FACE_INPUT = 2;
@@ -274,38 +275,36 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
                 switchBtn.setImageResource(R.drawable.soft_input);
                 voiceBtn.setVisibility(VISIBLE);
                 msgEditor.setVisibility(GONE);
+                faceBtn.setVisibility(View.GONE);
                 hideSoftInput();
             } else {
                 switchBtn.setImageResource(R.drawable.mic_icon);
                 voiceBtn.setVisibility(GONE);
                 msgEditor.setVisibility(VISIBLE);
+                faceBtn.setVisibility(View.VISIBLE);
                 showSoftInput();
             }
 
         } else if (view.getId() == R.id.face_btn) {
-            if (currentState == STATE_FACE_INPUT)
-                currentState = STATE_VOICE_INPUT;
-            else
-                currentState = STATE_FACE_INPUT;
             if (currentState == STATE_FACE_INPUT) {
-                faceBtn.setImageResource(R.drawable.soft_input);
-                showFaceViewGroup();
+                currentState = STATE_NONE_INPUT;
+                moreGroup.setVisibility(View.GONE);
             } else {
-                faceBtn.setImageResource(R.drawable.face_icon);
-                showSoftInput();
+                showFaceViewGroup();
+                currentState = STATE_FACE_INPUT;
             }
-
-
         } else if (view.getId() == R.id.more_btn) {
             if (sendAble) {
                 bottomHandler.sendMessage(MessageInfoUtil.buildAudioMessage());
             } else {
-                if (actionsFragment != null && actionsFragment.isVisible()) {
-                    showSoftInput();
+                if (currentState == STATE_ACTION_INPUT) {
+                    currentState = STATE_NONE_INPUT;
+                    moreGroup.setVisibility(View.GONE);
                 } else {
                     showActionsGroup();
                     currentState = STATE_ACTION_INPUT;
                 }
+
             }
 
         }

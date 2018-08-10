@@ -19,17 +19,24 @@ public class SessionProvider implements ISessionProvider {
     }
 
     @Override
-    public void addSession(SessionInfo session) {
+    public boolean addSession(SessionInfo session) {
         dataSource.add(session);
+        return true;
     }
 
     @Override
-    public void deleteSession(SessionInfo session) {
+    public boolean deleteSession(SessionInfo session) {
         for (int i = 0; i < dataSource.size(); i++) {
             if (dataSource.get(i).getSessionId().equals(session.getSessionId())) {
                 dataSource.remove(i);
-                return;
+                return true;
             }
         }
+        return false;
+    }
+
+    @Override
+    public boolean updateSession(SessionInfo session) {
+        return false;
     }
 }

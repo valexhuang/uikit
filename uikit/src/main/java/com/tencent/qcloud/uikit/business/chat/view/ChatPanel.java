@@ -129,7 +129,7 @@ public class ChatPanel extends LinearLayout implements IChatPanel {
     }
 
     @Override
-    public void setBaseInfo(BaseInfoBean info) {
+    public void setBaseChatInfo(BaseInfoBean info) {
         this.mBaseInfo = info;
         if (mBaseInfo instanceof PersonalInfoBean)
             mTitleBar.getRightIcon().setImageResource(R.drawable.personal_info);
