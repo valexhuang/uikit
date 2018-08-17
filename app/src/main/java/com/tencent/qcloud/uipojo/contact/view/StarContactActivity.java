@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.tencent.TIMUserProfile;
 import com.tencent.qcloud.uikit.api.contact.IContactDataProvider;
 import com.tencent.qcloud.uikit.api.contact.IContactPanel;
 import com.tencent.qcloud.uikit.business.contact.view.event.ContactPanelEvent;
@@ -62,8 +61,8 @@ public class StarContactActivity extends Activity implements ContactPanelEvent, 
     }
 
     @Override
-    public void onItemClick(View view, int position, TIMUserProfile userProfile) {
-        new AlertDialog.Builder(this).setTitle("").setMessage(userProfile.getIdentifier()).setNeutralButton("确定", new DialogInterface.OnClickListener() {
+    public void onItemClick(View view, int position) {
+        new AlertDialog.Builder(this).setTitle("").setMessage("").setNeutralButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 

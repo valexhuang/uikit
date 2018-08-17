@@ -1,1 +1,19 @@
 include ':app', ':uikit'
+
+include ':imsdk'
+project(':imsdk').projectDir = new File('D:/imsdk/imsdk/source/project/android/imsdk/imsdk')
+
+include ':manager'
+project(':manager').projectDir = new File('D:/imsdk/imsdk/source/project/android/wrapper/manager')
+
+include ':group'
+project(':group').projectDir = new File('D:/imsdk/imsdk/source/project/android/wrapper/group')
+
+include ':conversation'
+project(':conversation').projectDir = new File('D:/imsdk/imsdk/source/project/android/wrapper/conversation')
+
+include ':session'
+project(':session').projectDir = new File('D:/imsdk/imsdk/source/project/android/wrapper/session')
+
+include ':common'
+project(':common').projectDir = new File('D:/imsdk/imsdk/source/project/android/wrapper/common')

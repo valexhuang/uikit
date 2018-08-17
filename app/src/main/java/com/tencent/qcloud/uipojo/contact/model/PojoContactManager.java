@@ -1,7 +1,6 @@
 package com.tencent.qcloud.uipojo.contact.model;
 
-import com.tencent.TIMUserProfile;
-import com.tencent.imcore.FriendProfile;
+
 import com.tencent.qcloud.uikit.api.contact.IContactDataProvider;
 import com.tencent.qcloud.uikit.business.contact.model.ContactInfoBean;
 
@@ -25,13 +24,7 @@ public class PojoContactManager {
         if (checkValid(userName)) {
             callback.onFail("好友已存在");
         } else {
-            FriendProfile profile = new FriendProfile();
-            profile.setSIdentifier(userName);
-            TIMUserProfile userProfile = new TIMUserProfile(profile);
-            ContactInfoBean infoBean = new ContactInfoBean();
-            infoBean.setUserProfile(userProfile);
-            dataProvider.addContact(infoBean);
-            callback.onSuccess(userName);
+
         }
 
     }

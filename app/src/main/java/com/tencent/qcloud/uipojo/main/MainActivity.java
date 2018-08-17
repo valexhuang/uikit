@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.tencent.qcloud.uikit.business.infos.view.fragment.SelfInfoFragment;
 import com.tencent.qcloud.uipojo.R;
 import com.tencent.qcloud.uipojo.contact.view.ContactFragment;
 import com.tencent.qcloud.uipojo.session.SessionFragment;
@@ -18,6 +19,7 @@ public class MainActivity extends Activity {
 
     private SessionFragment sessionFragment;
     private ContactFragment contactFragment;
+    private SelfInfoFragment selfInfoFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +50,9 @@ public class MainActivity extends Activity {
                 current = contactFragment;
                 break;
             case R.id.mine:
+                if (selfInfoFragment == null)
+                    selfInfoFragment = new SelfInfoFragment();
+                current = selfInfoFragment;
                 break;
         }
         if (current != null)

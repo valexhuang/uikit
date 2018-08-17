@@ -36,7 +36,6 @@ public class SessionAdapter extends BaseAdapter {
         BackgroundTasks.getInstance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
                 notifyDataSetChanged();
             }
         });

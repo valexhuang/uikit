@@ -19,17 +19,24 @@ public class ChatProvider implements IChatProvider {
     }
 
     @Override
-    public void addMessageInfo(MessageInfo msg) {
-        dataSource.add(msg);
+    public boolean addMessageInfo(MessageInfo msg) {
+        return dataSource.add(msg);
+
     }
 
     @Override
-    public void deleteMessageInfo(MessageInfo msg) {
+    public boolean deleteMessageInfo(MessageInfo msg) {
         for (int i = 0; i < dataSource.size(); i++) {
             if (dataSource.get(i).getMsgId().equals(msg.getMsgId())) {
                 dataSource.remove(i);
-                return;
+                return true;
             }
         }
+        return false;
+    }
+
+    @Override
+    public boolean updateMessageInfo(MessageInfo message) {
+        return false;
     }
 }

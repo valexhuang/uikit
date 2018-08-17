@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.tencent.ilivesdk.ILiveCallBack;
 import com.tencent.qcloud.uikit.R;
 import com.tencent.qcloud.uikit.api.chat.IChatPanel;
 import com.tencent.qcloud.uikit.api.chat.IChatProvider;
@@ -81,7 +82,17 @@ public class ChatPanel extends LinearLayout implements IChatPanel {
 
             @Override
             public void sendMessage(MessageInfo messageInfo) {
-                mEvent.sendMessage(messageInfo);
+                mEvent.sendMessage(messageInfo, new ILiveCallBack() {
+                    @Override
+                    public void onSuccess(Object data) {
+
+                    }
+
+                    @Override
+                    public void onError(String module, int errCode, String errMsg) {
+
+                    }
+                });
                 scrollToEnd();
             }
 
@@ -138,7 +149,7 @@ public class ChatPanel extends LinearLayout implements IChatPanel {
     }
 
     @Override
-    public IContactDataProvider setProxyDataProvider(IChatProvider provider) {
+    public IChatProvider setProxyDataProvider(IChatProvider provider) {
         return null;
     }
 
@@ -155,12 +166,22 @@ public class ChatPanel extends LinearLayout implements IChatPanel {
         mBottomGroup.setActivity(mActivity);
         setChatPanelEvent(new ChatPanelEvent() {
             @Override
-            public void sendMessage(MessageInfo messageInfo) {
+            public void sendMessage(MessageInfo messageInfo, ILiveCallBack callBack) {
                 mPresenter.sendMessage(messageInfo);
             }
 
             @Override
-            public void onMessageLongClick() {
+            public void onMessageClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onMessageDoubleClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onMessageLongClick(View view, int position) {
 
             }
         });

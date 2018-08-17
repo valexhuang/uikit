@@ -33,16 +33,6 @@ public class PojoLoginPresenter {
     }
 
     public void register(String userName, String userPassword) {
-        mManager.register(userName, userPassword, new PojoLoginManager.LoginCallback() {
-            @Override
-            public void onSuccess(Object res) {
-                mView.onRegisterSuccess(res);
-            }
 
-            @Override
-            public void onFail(String module, int errCode, String errMsg) {
-                mView.onRegisterFail(module, errCode, errMsg);
-            }
-        });
     }
 }

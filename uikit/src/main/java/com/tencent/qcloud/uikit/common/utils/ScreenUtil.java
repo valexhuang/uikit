@@ -12,7 +12,6 @@ import android.view.Display;
 import android.view.View;
 import android.view.Window;
 
-import com.tencent.ilivesdk.ILiveSDK;
 import com.tencent.qcloud.uikit.ILiveUIKit;
 import com.tencent.qcloud.uikit.common.ILiveConstants;
 

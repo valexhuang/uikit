@@ -36,7 +36,7 @@ public class PersonalChatFragment extends BaseFragment {
     private void initView() {
         chatPanel = mBaseView.findViewById(R.id.chat_panel);
         chatPanel.initDefault();
-        chatPanel.setBaseInfo(mInfo);
+        chatPanel.setBaseChatInfo(mInfo);
         chatTitleBar = chatPanel.getTitleBar();
         chatTitleBar.setLeftClick(new View.OnClickListener() {
             @Override

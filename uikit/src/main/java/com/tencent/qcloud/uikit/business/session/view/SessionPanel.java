@@ -40,6 +40,7 @@ public class SessionPanel extends RelativeLayout implements ISessionPanel {
     private PageTitleBar mTitleBar;
     private AlertDialog mPopDialog;
     private View mPopView;
+    private ISessionProvider mProvider;
 
     public SessionPanel(Context context) {
         super(context);
@@ -163,7 +164,13 @@ public class SessionPanel extends RelativeLayout implements ISessionPanel {
 
     @Override
     public void setDataProvider(ISessionProvider provider) {
+        mProvider = provider;
         mAdapter.setDataSource(provider.getDataSource());
+    }
+
+    @Override
+    public ISessionProvider getDataProvider() {
+        return mProvider;
     }
 
     @Override
@@ -192,7 +199,5 @@ public class SessionPanel extends RelativeLayout implements ISessionPanel {
         });
         mPresenter = new SessionPresenter(this);
         mPresenter.loadSessionData();
-
-
     }
 }

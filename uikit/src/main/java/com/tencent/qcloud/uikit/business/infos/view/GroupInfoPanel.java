@@ -14,12 +14,16 @@ import android.widget.TextView;
 import com.tencent.qcloud.uikit.R;
 import com.tencent.qcloud.uikit.api.infos.IGroupInfoPanel;
 import com.tencent.qcloud.uikit.business.infos.model.GroupInfoBean;
+import com.tencent.qcloud.uikit.business.infos.model.InfoItemAction;
 import com.tencent.qcloud.uikit.business.infos.presenter.GroupInfoPresenter;
 import com.tencent.qcloud.uikit.business.infos.view.widget.GroupInfoPanelEvent;
+import com.tencent.qcloud.uikit.business.session.view.wedgit.PopMenuAction;
 import com.tencent.qcloud.uikit.common.component.picture.imageEngine.impl.GlideEngine;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 import com.tencent.qcloud.uikit.common.utils.PopWindowUtil;
 import com.tencent.qcloud.uikit.common.widget.ILiveSwitch;
+
+import java.util.List;
 
 /**
  * Created by valxehuang on 2018/7/30.
@@ -128,6 +132,16 @@ public class GroupInfoPanel extends LinearLayout implements IGroupInfoPanel {
     @Override
     public PageTitleBar getTitleBar() {
         return mTitleBar;
+    }
+
+    @Override
+    public void addInfoItem(List<InfoItemAction> items, int group, int index) {
+
+    }
+
+    @Override
+    public void addPopActions(List<PopMenuAction> actions) {
+
     }
 
     @Override

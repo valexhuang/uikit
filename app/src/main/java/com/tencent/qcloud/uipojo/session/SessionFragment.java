@@ -8,8 +8,9 @@ import android.view.ViewGroup;
 
 import com.tencent.qcloud.uikit.business.infos.model.GroupInfoBean;
 import com.tencent.qcloud.uikit.business.infos.model.PersonalInfoBean;
+import com.tencent.qcloud.uikit.business.session.model.SessionInfo;
 import com.tencent.qcloud.uikit.business.session.view.SessionPanel;
-import com.tencent.qcloud.uikit.business.session.view.wedgit.SessionPanelEvent;
+import com.tencent.qcloud.uikit.api.session.SessionListEvent;
 import com.tencent.qcloud.uikit.common.BaseFragment;
 import com.tencent.qcloud.uipojo.R;
 import com.tencent.qcloud.uipojo.chat.ChatActivity;
@@ -34,7 +35,7 @@ public class SessionFragment extends BaseFragment {
     private void initView() {
         sessionPanel = baseView.findViewById(R.id.session_panel);
         sessionPanel.initDefault();
-        sessionPanel.setContactPanelEvent(new SessionPanelEvent() {
+        sessionPanel.setSessionListEvent(new SessionListEvent() {
             @Override
             public void onSessionClick(View v, int position) {
                 if (position % 2 == 0) {
@@ -45,19 +46,26 @@ public class SessionFragment extends BaseFragment {
             }
 
             @Override
-            public void onSessionLongClick() {
+            public void onSessionLongClick(View v, int position) {
 
             }
 
             @Override
-            public void onSessionRightSlide() {
+            public void onSessionLeftSlide(View v, int position) {
 
             }
 
-            @Override
-            public void onSessionLeftSlide() {
 
-            }
         });
+
+        baseView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                SessionInfo sessionInfo = sessionPanel.getDataProvider().getDataSource().get(0);
+                sessionInfo.setMsg("丫丫个呸的");
+                sessionPanel.setDataProvider(sessionPanel.getDataProvider());
+            }
+        }, 10000);
+
     }
 }
