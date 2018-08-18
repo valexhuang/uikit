@@ -15,7 +15,7 @@ import com.tencent.qcloud.uikit.R;
 import com.tencent.qcloud.uikit.api.infos.IGroupInfoPanel;
 import com.tencent.qcloud.uikit.business.infos.model.GroupInfoBean;
 import com.tencent.qcloud.uikit.business.infos.presenter.GroupInfoPresenter;
-import com.tencent.qcloud.uikit.business.infos.view.widget.GroupInfoPanelEvent;
+import com.tencent.qcloud.uikit.api.infos.GroupInfoPanelEvent;
 import com.tencent.qcloud.uikit.common.component.picture.imageEngine.impl.GlideEngine;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 import com.tencent.qcloud.uikit.common.utils.PopWindowUtil;

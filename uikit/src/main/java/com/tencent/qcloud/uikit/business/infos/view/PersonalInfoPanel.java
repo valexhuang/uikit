@@ -13,13 +13,16 @@ import android.widget.TextView;
 
 import com.tencent.qcloud.uikit.R;
 import com.tencent.qcloud.uikit.api.infos.IPersonalInfoPanel;
+import com.tencent.qcloud.uikit.business.infos.model.InfoItemAction;
 import com.tencent.qcloud.uikit.business.infos.model.PersonalInfoBean;
 import com.tencent.qcloud.uikit.business.infos.presenter.PersonalPresenter;
-import com.tencent.qcloud.uikit.business.infos.view.widget.PersonalInfoPanelEvent;
+import com.tencent.qcloud.uikit.api.infos.PersonalInfoPanelEvent;
 import com.tencent.qcloud.uikit.common.component.picture.imageEngine.impl.GlideEngine;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 import com.tencent.qcloud.uikit.common.utils.PopWindowUtil;
 import com.tencent.qcloud.uikit.common.widget.ILiveSwitch;
+
+import java.util.List;
 
 /**
  * Created by valxehuang on 2018/7/30.
@@ -146,7 +149,7 @@ public class PersonalInfoPanel extends LinearLayout implements IPersonalInfoPane
         mBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                event.onButtonClick(mInfo.isFriend(), mInfo);
+                event.onBottomButtonClick(mInfo.isFriend(), mInfo);
             }
         });
     }
@@ -162,7 +165,7 @@ public class PersonalInfoPanel extends LinearLayout implements IPersonalInfoPane
             }
 
             @Override
-            public void onButtonClick(boolean isFriend, PersonalInfoBean info) {
+            public void onBottomButtonClick(boolean isFriend, PersonalInfoBean info) {
 
             }
 
@@ -181,5 +184,10 @@ public class PersonalInfoPanel extends LinearLayout implements IPersonalInfoPane
                 mPresenter.addToBlackList(info);
             }
         });
+    }
+
+    @Override
+    public void addInfoItem(List<InfoItemAction> items, int group, int index) {
+
     }
 }

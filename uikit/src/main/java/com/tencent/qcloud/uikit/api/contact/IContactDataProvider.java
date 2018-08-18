@@ -16,4 +16,6 @@ public interface IContactDataProvider {
     public void addContact(ContactInfoBean contact);
 
     public void deleteContact(String contactName);
+
+    public void updateContact(ContactInfoBean contact);
 }

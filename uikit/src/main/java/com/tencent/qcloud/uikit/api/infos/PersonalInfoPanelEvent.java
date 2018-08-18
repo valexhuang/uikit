@@ -1,4 +1,4 @@
-package com.tencent.qcloud.uikit.business.infos.view.widget;
+package com.tencent.qcloud.uikit.api.infos;
 
 import com.tencent.qcloud.uikit.business.infos.model.PersonalInfoBean;
 
@@ -10,7 +10,7 @@ public interface PersonalInfoPanelEvent {
 
     void onBackClick();
 
-    void onButtonClick(boolean isFriend, PersonalInfoBean info);
+    void onBottomButtonClick(boolean isFriend, PersonalInfoBean info);
 
     void onAddFriendClick(PersonalInfoBean info);
 

@@ -10,9 +10,11 @@ import com.tencent.TIMUserProfile;
  */
 
 public interface ContactPanelEvent {
-    public void onAddContactClick(View view, String identify);
+    void onContactItemClick(View view, int position, TIMUserProfile userProfile);
 
-    public void onDelContactClick(View view, String identify);
+    void onContactItemLongClick(View view, int position, TIMUserProfile userProfile);
 
-    void onItemClick(View view, int position, TIMUserProfile userProfile);
+    void onContactItemSelected(View view, int position, TIMUserProfile userProfile);
+
+
 }

@@ -2,7 +2,6 @@ package com.tencent.qcloud.uikit.api.infos;
 
 import com.tencent.qcloud.uikit.business.infos.model.GroupInfoBean;
 import com.tencent.qcloud.uikit.business.infos.model.InfoItemAction;
-import com.tencent.qcloud.uikit.business.infos.view.widget.GroupInfoPanelEvent;
 import com.tencent.qcloud.uikit.business.session.view.wedgit.PopMenuAction;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 

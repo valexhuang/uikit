@@ -62,7 +62,7 @@ public class StarContactActivity extends Activity implements ContactPanelEvent, 
     }
 
     @Override
-    public void onItemClick(View view, int position, TIMUserProfile userProfile) {
+    public void onContactItemClick(View view, int position, TIMUserProfile userProfile) {
         new AlertDialog.Builder(this).setTitle("").setMessage(userProfile.getIdentifier()).setNeutralButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -19,18 +18,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tencent.qcloud.uikit.R;
-import com.tencent.qcloud.uikit.api.infos.IPersonalInfoPanel;
 import com.tencent.qcloud.uikit.api.infos.ISelfInfoPanel;
 import com.tencent.qcloud.uikit.business.infos.model.InfoItemAction;
 import com.tencent.qcloud.uikit.business.infos.model.PersonalInfoBean;
-import com.tencent.qcloud.uikit.business.infos.presenter.PersonalPresenter;
 import com.tencent.qcloud.uikit.business.infos.presenter.SelfInfoPresenter;
 import com.tencent.qcloud.uikit.business.infos.view.widget.InfoItemAdapter;
 import com.tencent.qcloud.uikit.business.infos.view.widget.InfoItemListView;
-import com.tencent.qcloud.uikit.business.infos.view.widget.PersonalInfoPanelEvent;
 import com.tencent.qcloud.uikit.business.infos.view.widget.SelfInfoPanelEvent;
 import com.tencent.qcloud.uikit.common.component.datepicker.builder.TimePickerBuilder;
 import com.tencent.qcloud.uikit.common.component.datepicker.listener.OnTimeSelectChangeListener;
@@ -40,7 +35,6 @@ import com.tencent.qcloud.uikit.common.component.picture.imageEngine.impl.GlideE
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 import com.tencent.qcloud.uikit.common.utils.PopWindowUtil;
 import com.tencent.qcloud.uikit.common.utils.UIUtils;
-import com.tencent.qcloud.uikit.common.widget.ILiveSwitch;
 
 import java.util.ArrayList;
 import java.util.Date;
