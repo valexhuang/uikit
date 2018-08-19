@@ -29,7 +29,9 @@ public class GroupChatFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         mBaseView = inflater.inflate(R.layout.chat_fragment_personal, container, false);
-        mInfo = (GroupInfoBean) getArguments().getSerializable(Constants.GROUP_INFO);
+        Bundle datas = getArguments();
+        mInfo = new GroupInfoBean();
+        mInfo.setGroupName(datas.getString(Constants.SESSION_TITLE, ""));
         initView();
         return mBaseView;
     }
@@ -37,8 +39,9 @@ public class GroupChatFragment extends BaseFragment {
     private void initView() {
         chatPanel = mBaseView.findViewById(R.id.chat_panel);
         chatPanel.initDefault();
-        chatPanel.setBaseInfo(mInfo);
+        chatPanel.setBaseChatInfo(mInfo);
         chatTitleBar = chatPanel.getTitleBar();
+        chatTitleBar.setTitle(mInfo.getGroupName(), PageTitleBar.POSITION.CENTER);
         chatTitleBar.setLeftClick(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

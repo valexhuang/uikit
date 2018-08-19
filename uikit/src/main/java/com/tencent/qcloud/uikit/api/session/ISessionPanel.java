@@ -24,6 +24,8 @@ public interface ISessionPanel {
 
     void setDataProvider(ISessionProvider provider);
 
+    ISessionProvider getDataProvider();
+
     IContactDataProvider setProxyDataProvider(ISessionProvider provider);
 
     void refreshData();

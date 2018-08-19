@@ -1,10 +1,6 @@
 package com.tencent.qcloud.uipojo.login.model;
 
-import android.content.Intent;
-import android.text.TextUtils;
 
-import com.tencent.ilivesdk.ILiveCallBack;
-import com.tencent.ilivesdk.core.ILiveLoginManager;
 import com.tencent.qcloud.uipojo.PojoApplication;
 
 import org.json.JSONObject;
@@ -24,40 +20,47 @@ public class PojoLoginManager {
     }
 
     public void login(final String name, final String password, final LoginCallback callback) {
-        ILiveLoginManager.getInstance().tlsLoginAll(name, password, new ILiveCallBack() {
+        callback.onSuccess(null);
+/*
+        TIMCallBack mycallBack = new TIMCallBack() {
             @Override
-            public void onSuccess(Object data) {
+            public void onError(int code, String desc) {
+                if (callback != null)
+                    callback.onFail("", code, desc);
+
+            }
+
+            @Override
+            public void onSuccess() {
                 afterLogin(name, password);
                 if (callback != null)
-                    callback.onSuccess(data);
+                    callback.onSuccess("");
+            }
+        };
+        mycallBack.onSuccess();
+*/
+
+/*
+
+        TIMManager.getInstance().login(name, password, new TIMCallBack() {
+            @Override
+            public void onError(int code, String desc) {
+                if (callback != null)
+                    callback.onFail("", code, desc);
+
             }
 
             @Override
-            public void onError(String module, int errCode, String errMsg) {
+            public void onSuccess() {
+                afterLogin(name, password);
                 if (callback != null)
-                    callback.onFail(module, errCode, errMsg);
+                    callback.onSuccess("");
             }
         });
+*/
+
+
     }
-
-    // 注册
-    public void register(String userName, String password, final LoginCallback callback) {
-
-        ILiveLoginManager.getInstance().tlsRegister(userName, password, new ILiveCallBack() {
-            @Override
-            public void onSuccess(Object data) {
-                if (callback != null)
-                    callback.onSuccess(data);
-            }
-
-            @Override
-            public void onError(String module, int errCode, String errMsg) {
-                if (callback != null)
-                    callback.onFail(module, errCode, errMsg);
-            }
-        });
-    }
-
 
     // 登录成功
     private void afterLogin(String userName, String password) {

@@ -147,12 +147,17 @@ public class ContactMainPanel extends LinearLayout implements IContactPanel {
 
 
     @Override
-    public void setMenuItemClickListener(AdapterView.OnItemClickListener itemClickListener) {
-        this.mMenuItemClickListener = itemClickListener;
+    public PageTitleBar getTitleBar() {
+        return null;
     }
 
     @Override
     public void setContactPanelEvent(ContactPanelEvent event) {
+
+    }
+
+    @Override
+    public void addPopActions(List<PopMenuAction> actions) {
 
     }
 

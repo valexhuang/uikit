@@ -44,31 +44,37 @@
         <attr name="indexBarPressBackground" format="color" />
     </declare-styleable>
 
-    <attr name="iconSize" format="dimension"/>
-    <attr name="iconMargin" format="dimension"/>
-    <attr name="iconSrc" format="reference"/>
-    <attr name="iconLeft" format="reference"/>
-    <attr name="iconRight" format="reference"/>
-    <attr name="duration_max" format="integer"/>
+    <attr name="iconSize" format="dimension" />
+    <attr name="iconMargin" format="dimension" />
+    <attr name="iconSrc" format="reference" />
+    <attr name="iconLeft" format="reference" />
+    <attr name="iconRight" format="reference" />
+    <attr name="duration_max" format="integer" />
     <declare-styleable name="JCameraView">
-        <attr name="iconSize"/>
-        <attr name="iconMargin"/>
-        <attr name="iconSrc"/>
-        <attr name="iconLeft"/>
-        <attr name="iconRight"/>
-        <attr name="duration_max"/>
+        <attr name="iconSize" />
+        <attr name="iconMargin" />
+        <attr name="iconSrc" />
+        <attr name="iconLeft" />
+        <attr name="iconRight" />
+        <attr name="duration_max" />
     </declare-styleable>
 
     <declare-styleable name="pickerview">
         <attr name="wheelview_gravity">
-            <enum name="center" value="17"/>
-            <enum name="left" value="3"/>
-            <enum name="right" value="5"/>
+            <enum name="center" value="17" />
+            <enum name="left" value="3" />
+            <enum name="right" value="5" />
         </attr>
-        <attr name="wheelview_textSize" format="dimension"/>
-        <attr name="wheelview_textColorOut" format="color"/>
-        <attr name="wheelview_textColorCenter" format="color"/>
-        <attr name="wheelview_dividerColor" format="color"/>
-        <attr name="wheelview_lineSpacingMultiplier" format="float"/>
+        <attr name="wheelview_textSize" format="dimension" />
+        <attr name="wheelview_textColorOut" format="color" />
+        <attr name="wheelview_textColorCenter" format="color" />
+        <attr name="wheelview_dividerColor" format="color" />
+        <attr name="wheelview_lineSpacingMultiplier" format="float" />
+    </declare-styleable>
+
+
+    <declare-styleable name="ShadeImageView">
+        <attr name="shadeRadio" format="dimension" />
+        <attr name="shadeWidth" format="dimension" />
     </declare-styleable>
 </resources>

@@ -1,6 +1,5 @@
 package com.tencent.qcloud.uikit.api.contact;
 
-import com.tencent.TIMUserProfile;
 import com.tencent.qcloud.uikit.business.contact.model.ContactInfoBean;
 
 import java.util.List;

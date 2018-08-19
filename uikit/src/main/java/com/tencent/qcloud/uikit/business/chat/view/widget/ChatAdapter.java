@@ -188,7 +188,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
         public BaseChatHolder(View itemView) {
             super(itemView);
-            rootView = (RelativeLayout) itemView;
+            rootView = (RelativeLayout) itemView.findViewById(R.id.chat_info_content);
             userName = itemView.findViewById(R.id.tv_user_name);
             userIcon = itemView.findViewById(R.id.iv_user_icon);
             contentGroup = itemView.findViewById(R.id.ll_content_group);

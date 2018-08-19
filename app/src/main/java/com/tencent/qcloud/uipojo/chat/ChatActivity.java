@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 
 import com.tencent.qcloud.uikit.business.infos.model.GroupInfoBean;
 import com.tencent.qcloud.uikit.business.infos.model.PersonalInfoBean;
+import com.tencent.qcloud.uikit.business.session.model.SessionInfo;
 import com.tencent.qcloud.uikit.common.BaseFragment;
 import com.tencent.qcloud.uipojo.R;
 import com.tencent.qcloud.uipojo.common.Constants;
@@ -24,17 +25,13 @@ public class ChatActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         BaseFragment fragment = null;
-        Bundle bundle = new Bundle();
-        PersonalInfoBean personalInfo = (PersonalInfoBean) getIntent().getSerializableExtra(Constants.PERSONAL_INFO);
-        if (personalInfo != null) {
+        Bundle bundle = getIntent().getExtras();
+        boolean session = bundle.getBoolean(Constants.IS_GROUP, false);
+        if (session) {
             fragment = new PersonalChatFragment();
-            bundle.putSerializable(Constants.PERSONAL_INFO, personalInfo);
         } else {
-            GroupInfoBean groupInfo = (GroupInfoBean) getIntent().getSerializableExtra(Constants.GROUP_INFO);
             fragment = new GroupChatFragment();
-            bundle.putSerializable(Constants.GROUP_INFO, groupInfo);
         }
-
         if (fragment != null) {
             fragment.setArguments(bundle);
             getFragmentManager().beginTransaction().replace(R.id.empty_view, fragment).commitAllowingStateLoss();
@@ -42,15 +39,11 @@ public class ChatActivity extends Activity {
     }
 
 
-    public static void startPersonalChat(Context context, PersonalInfoBean personalInfo) {
+    public static void startChat(Context context, String sessionId, String sessionTitle, boolean isGroup) {
         Intent intent = new Intent(context, ChatActivity.class);
-        intent.putExtra(Constants.PERSONAL_INFO, personalInfo);
-        context.startActivity(intent);
-    }
-
-    public static void startGroupChat(Context context, GroupInfoBean groupInfo) {
-        Intent intent = new Intent(context, ChatActivity.class);
-        intent.putExtra(Constants.GROUP_INFO, groupInfo);
+        intent.putExtra(Constants.SESSION_ID, sessionId);
+        intent.putExtra(Constants.SESSION_TITLE, sessionTitle);
+        intent.putExtra(Constants.IS_GROUP, isGroup);
         context.startActivity(intent);
     }
 }

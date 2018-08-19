@@ -71,6 +71,63 @@ public class SessionListView extends ListView {
 
 
     /**
+     * return true, deliver to listView. return false, deliver to child. if
+     * move, return true
+     */
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        float lastX = ev.getX();
+        float lastY = ev.getY();
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mIsHorizontal = null;
+                System.out.println("onInterceptTouchEvent----->ACTION_DOWN");
+                mFirstX = lastX;
+                mFirstY = lastY;
+                int motionPosition = pointToPosition((int) mFirstX, (int) mFirstY);
+
+                if (motionPosition >= 0) {
+                    View currentItemView = getChildAt(motionPosition - getFirstVisiblePosition());
+                    mPreItemView = mCurrentItemView;
+                    mCurrentItemView = currentItemView;
+                }
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                float dx = lastX - mFirstX;
+                float dy = lastY - mFirstY;
+
+                if (Math.abs(dx) >= 5 && Math.abs(dy) >= 5) {
+                    return true;
+                }
+                break;
+
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                System.out.println("onInterceptTouchEvent----->ACTION_UP");
+                if (mIsShown && (mPreItemView != mCurrentItemView || isHitCurItemLeft(lastX))) {
+                    System.out.println("1---> hiddenRight");
+                    /**
+                     * 情况一：
+                     * <p>
+                     * 一个Item的右边布局已经显示，
+                     * <p>
+                     * 这时候点击任意一个item, 那么那个右边布局显示的item隐藏其右边布局
+                     */
+                    hiddenRight(mPreItemView);
+                }
+                break;
+        }
+
+        return super.onInterceptTouchEvent(ev);
+    }
+
+    private boolean isHitCurItemLeft(float x) {
+        return x < getWidth() - mRightViewWidth;
+    }
+
+
+    /**
      * @param dx
      * @param dy
      * @return judge if can judge scroll direction
@@ -90,6 +147,9 @@ public class SessionListView extends ListView {
 
         return canJudge;
     }
+
+
+
 
     /**
      * return false, can't move any direction. return true, cant't move

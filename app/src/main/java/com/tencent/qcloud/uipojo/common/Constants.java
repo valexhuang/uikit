@@ -25,4 +25,10 @@ public class Constants {
 
     public static final String PERSONAL_INFO = "personal_info";
     public static final String GROUP_INFO = "group_info";
+    public static final String SESSION_INFO = "session_info";
+
+    public static final String IS_GROUP = "IS_GROUP";
+    public static final String SESSION_TITLE = "SESSION_TITLE";
+    public static final String SESSION_ID = "SESSION_ID";
+
 }

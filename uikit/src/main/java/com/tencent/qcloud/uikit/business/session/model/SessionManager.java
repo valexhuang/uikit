@@ -28,6 +28,7 @@ public class SessionManager {
             info.setMsg("无量寿佛，恭喜发财");
             info.setTime(i + "分钟");
             info.setUnRead(i);
+            info.setGroup(i % 2 == 0);
             provider.getDataSource().add(info);
         }
         if (callBack != null) {

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.tencent.ilivesdk.ILiveCallBack;
 import com.tencent.qcloud.uikit.R;
 import com.tencent.qcloud.uikit.api.chat.IChatPanel;
 import com.tencent.qcloud.uikit.api.chat.IChatProvider;
@@ -63,7 +64,7 @@ public class ChatPanel extends LinearLayout implements IChatPanel {
     private void init() {
         inflate(getContext(), R.layout.chat_panel, this);
         mTitleBar = findViewById(R.id.chat_page_title);
-        mTitleBar.getLeftIcon().setImageResource(R.drawable.title_back);
+        mTitleBar.getLeftIcon().setImageResource(R.drawable.title_bar_back);
         mChatList = findViewById(R.id.chat_list);
         mChatList.setLayoutFrozen(false);
         mChatList.setItemViewCacheSize(0);
@@ -81,7 +82,17 @@ public class ChatPanel extends LinearLayout implements IChatPanel {
 
             @Override
             public void sendMessage(MessageInfo messageInfo) {
-                mEvent.sendMessage(messageInfo);
+                mEvent.sendMessage(messageInfo, new ILiveCallBack() {
+                    @Override
+                    public void onSuccess(Object data) {
+
+                    }
+
+                    @Override
+                    public void onError(String module, int errCode, String errMsg) {
+
+                    }
+                });
                 scrollToEnd();
             }
 
@@ -132,13 +143,13 @@ public class ChatPanel extends LinearLayout implements IChatPanel {
     public void setBaseChatInfo(BaseInfoBean info) {
         this.mBaseInfo = info;
         if (mBaseInfo instanceof PersonalInfoBean)
-            mTitleBar.getRightIcon().setImageResource(R.drawable.personal_info);
+            mTitleBar.getRightIcon().setImageResource(R.drawable.member_icon);
         else
-            mTitleBar.getRightIcon().setImageResource(R.drawable.group_info);
+            mTitleBar.getRightIcon().setImageResource(R.drawable.group_icon);
     }
 
     @Override
-    public IContactDataProvider setProxyDataProvider(IChatProvider provider) {
+    public IChatProvider setProxyDataProvider(IChatProvider provider) {
         return null;
     }
 
@@ -155,12 +166,22 @@ public class ChatPanel extends LinearLayout implements IChatPanel {
         mBottomGroup.setActivity(mActivity);
         setChatPanelEvent(new ChatPanelEvent() {
             @Override
-            public void sendMessage(MessageInfo messageInfo) {
+            public void sendMessage(MessageInfo messageInfo, ILiveCallBack callBack) {
                 mPresenter.sendMessage(messageInfo);
             }
 
             @Override
-            public void onMessageLongClick() {
+            public void onMessageClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onMessageDoubleClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onMessageLongClick(View view, int position) {
 
             }
         });

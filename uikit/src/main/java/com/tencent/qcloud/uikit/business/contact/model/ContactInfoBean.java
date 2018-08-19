@@ -1,7 +1,6 @@
 package com.tencent.qcloud.uikit.business.contact.model;
 
 
-import com.tencent.TIMUserProfile;
 import com.tencent.qcloud.uikit.business.contact.view.widget.IndexBar.bean.BaseIndexPinyinBean;
 
 /**
@@ -13,7 +12,6 @@ public class ContactInfoBean extends BaseIndexPinyinBean {
     public static final String INDEX_STRING_TOP = "↑";
     private String city;//城市名字
     private boolean isTop;//是否是最上面的 不需要被转化成拼音的
-    private TIMUserProfile userProfile;
     private boolean isSelected;
 
     public ContactInfoBean() {
@@ -55,14 +53,6 @@ public class ContactInfoBean extends BaseIndexPinyinBean {
     @Override
     public boolean isShowSuspension() {
         return !isTop;
-    }
-
-    public TIMUserProfile getUserProfile() {
-        return userProfile;
-    }
-
-    public void setUserProfile(TIMUserProfile userProfile) {
-        this.userProfile = userProfile;
     }
 
     public boolean isSelected() {

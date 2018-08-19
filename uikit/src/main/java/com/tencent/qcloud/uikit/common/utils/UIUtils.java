@@ -52,6 +52,7 @@ public class UIUtils {
 
     public static int getPxByDp(int dp) {
         float scale = ILiveUIKit.getAppContext().getResources().getDisplayMetrics().density;
+        int dpi = ILiveUIKit.getAppContext().getResources().getDisplayMetrics().densityDpi;
         return (int) (dp * scale + 0.5f);
     }
 

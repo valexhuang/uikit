@@ -40,6 +40,7 @@ public class SessionPanel extends RelativeLayout implements ISessionPanel {
     private PageTitleBar mTitleBar;
     private AlertDialog mPopDialog;
     private View mPopView;
+    private ISessionProvider mProvider;
 
     public SessionPanel(Context context) {
         super(context);
@@ -66,7 +67,7 @@ public class SessionPanel extends RelativeLayout implements ISessionPanel {
         mSessionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mSessionEvent.onSessionClick(view, i);
+                mSessionEvent.onSessionClick(view, i, mAdapter.getItem(i));
             }
         });
         mSessionList.setItemLongClickListener(new SessionListView.ItemLongClickListener() {
@@ -163,7 +164,13 @@ public class SessionPanel extends RelativeLayout implements ISessionPanel {
 
     @Override
     public void setDataProvider(ISessionProvider provider) {
+        mProvider = provider;
         mAdapter.setDataSource(provider.getDataSource());
+    }
+
+    @Override
+    public ISessionProvider getDataProvider() {
+        return mProvider;
     }
 
     @Override
@@ -192,7 +199,5 @@ public class SessionPanel extends RelativeLayout implements ISessionPanel {
         });
         mPresenter = new SessionPresenter(this);
         mPresenter.loadSessionData();
-
-
     }
 }

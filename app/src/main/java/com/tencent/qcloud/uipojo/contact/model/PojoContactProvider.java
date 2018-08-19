@@ -1,6 +1,5 @@
 package com.tencent.qcloud.uipojo.contact.model;
 
-import com.tencent.TIMUserProfile;
 import com.tencent.qcloud.uikit.api.contact.IContactDataProvider;
 import com.tencent.qcloud.uikit.business.contact.model.ContactInfoBean;
 
@@ -26,6 +25,11 @@ public class PojoContactProvider implements IContactDataProvider {
 
     @Override
     public void deleteContact(String identifier) {
+
+    }
+
+    @Override
+    public void updateContact(ContactInfoBean contact) {
 
     }
 }

@@ -36,7 +36,6 @@ public class SessionAdapter extends BaseAdapter {
         BackgroundTasks.getInstance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
                 notifyDataSetChanged();
             }
         });
@@ -49,7 +48,7 @@ public class SessionAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public SessionInfo getItem(int position) {
         return dataSource.get(position);
     }
 

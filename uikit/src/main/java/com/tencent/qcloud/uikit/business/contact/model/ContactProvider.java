@@ -1,6 +1,5 @@
 package com.tencent.qcloud.uikit.business.contact.model;
 
-import com.tencent.TIMUserProfile;
 import com.tencent.qcloud.uikit.api.contact.IContactDataProvider;
 
 import java.util.ArrayList;
@@ -25,6 +24,11 @@ public class ContactProvider implements IContactDataProvider {
 
     @Override
     public void deleteContact(String identifier) {
+
+    }
+
+    @Override
+    public void updateContact(ContactInfoBean contact) {
 
     }
 }

@@ -26,12 +26,6 @@ public class ContactFragment extends BaseFragment {
         baseView = inflater.inflate(R.layout.contact_fragment, container, false);
         mContactPanel = baseView.findViewById(R.id.contact_panel);
         mContactPanel.initDefault();
-        mContactPanel.setMenuItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                forward(new StartGroupChatFragment());
-            }
-        });
         return baseView;
     }
 }

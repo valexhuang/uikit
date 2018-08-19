@@ -2,7 +2,9 @@ package com.tencent.qcloud.uikit.business.session.model;
 
 import android.graphics.Bitmap;
 
-public class SessionInfo {
+import java.io.Serializable;
+
+public class SessionInfo implements Serializable {
 
 
     private int unRead;
@@ -12,6 +14,7 @@ public class SessionInfo {
     private String msg;
     private String time;
     private Bitmap icon;
+    private boolean isGroup;
 
     public SessionInfo() {
 
@@ -71,5 +74,13 @@ public class SessionInfo {
 
     public void setIcon(Bitmap icon) {
         this.icon = icon;
+    }
+
+    public boolean isGroup() {
+        return isGroup;
+    }
+
+    public void setGroup(boolean group) {
+        isGroup = group;
     }
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tencent.qcloud.uikit.business.chat.view.ChatPanel;
+import com.tencent.qcloud.uikit.business.infos.model.GroupInfoBean;
 import com.tencent.qcloud.uikit.business.infos.model.PersonalInfoBean;
 import com.tencent.qcloud.uikit.business.infos.view.fragment.PersonalInfoFragment;
 import com.tencent.qcloud.uikit.common.BaseFragment;
@@ -28,7 +29,9 @@ public class PersonalChatFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mBaseView = inflater.inflate(R.layout.chat_fragment_personal, container, false);
-        mInfo = (PersonalInfoBean) getArguments().getSerializable(Constants.PERSONAL_INFO);
+        Bundle datas = getArguments();
+        mInfo = new PersonalInfoBean();
+        mInfo.setNickName(datas.getString(Constants.SESSION_TITLE, ""));
         initView();
         return mBaseView;
     }
@@ -36,8 +39,9 @@ public class PersonalChatFragment extends BaseFragment {
     private void initView() {
         chatPanel = mBaseView.findViewById(R.id.chat_panel);
         chatPanel.initDefault();
-        chatPanel.setBaseInfo(mInfo);
+        chatPanel.setBaseChatInfo(mInfo);
         chatTitleBar = chatPanel.getTitleBar();
+        chatTitleBar.setTitle(mInfo.getNickName(), PageTitleBar.POSITION.CENTER);
         chatTitleBar.setLeftClick(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
