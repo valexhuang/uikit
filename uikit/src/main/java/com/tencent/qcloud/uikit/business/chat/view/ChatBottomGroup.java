@@ -82,12 +82,10 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
     }
 
     private void init() {
+        activity = (Activity) getContext();
         inflate(getContext(), R.layout.chat_bottom_group, this);
         moreGroup = findViewById(R.id.more_groups);
         voiceBtn = findViewById(R.id.chat_voice_input);
-        LayoutParams params = (LayoutParams) moreGroup.getLayoutParams();
-        params.height = SoftKeyBoardUtil.getSoftKeyBoardHeight();
-        moreGroup.setLayoutParams(params);
         switchBtn = findViewById(R.id.voice_input_switch);
         switchBtn.setOnClickListener(this);
         faceBtn = findViewById(R.id.face_btn);
@@ -110,10 +108,10 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
             public void afterTextChanged(Editable editable) {
                 if (!TextUtils.isEmpty(editable.toString())) {
                     sendAble = true;
-                    moreBtn.setImageResource(R.drawable.msg_send_selector);
+                    moreBtn.setImageResource(R.drawable.send_icon);
                 } else {
                     sendAble = false;
-                    moreBtn.setImageResource(R.drawable.more_icon);
+                    moreBtn.setImageResource(R.drawable.bottom_action_more);
                 }
             }
         });
@@ -140,23 +138,26 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
         });
 
         voiceBtn.setOnTouchListener(new OnTouchListener() {
+            private long start;
+
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     startRecordY = motionEvent.getY();
                     bottomHandler.startRecording();
+                    start = System.currentTimeMillis();
                     ILiveAudioMachine.getInstance().startRecord();
 
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     if (motionEvent.getY() - startRecordY < -100) {
                         UIUtils.toastLongMessage("已取消");
                     } else {
-                        bottomHandler.sendMessage(MessageInfoUtil.buildAudioMessage());
+                        bottomHandler.sendMessage(MessageInfoUtil.buildAudioMessage(System.currentTimeMillis() - start));
                         UIUtils.toastLongMessage("已发送");
                     }
                     ILiveAudioMachine.getInstance().stopRecord();
                     bottomHandler.stopRecording();
-
                 }
                 return false;
             }
@@ -168,8 +169,8 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
 
     private void initDefaultActions() {
         ChatBottomAction action = new ChatBottomAction();
-        action.setIconResId(R.drawable.action_photo_selector);
-        action.setTitleId(R.string.action_photo);
+        action.setIconResId(R.drawable.pic);
+        action.setTitleId(R.string.pic);
         action.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -203,31 +204,6 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
         action.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* new LFilePicker()
-                        .withActivity((Activity) getContext())
-                        .withRequestCallback(new ILiveCallBack() {
-                            @Override
-                            public void onSuccess(Object data) {
-                                MessageInfo info = MessageInfoUtil.buildFileMessage(data.toString());
-                                bottomHandler.sendMessage(info);
-                            }
-
-                            @Override
-                            public void onError(String module, int errCode, String errMsg) {
-                                UIUtils.toastLongMessage(errMsg);
-                            }
-                        })
-                        .withTitle("文件选择")
-                        .withMutilyMode(false)
-                        .withMaxNum(2)
-                        .withStartPath("/storage/emulated/0/Download")//指定初始显示路径
-                        .withNotFoundBooks("至少选择一个文件")
-                        .withIsGreater(false)//过滤文件大小 小于指定大小的文件
-                        .withFileSize(500 * 1024)//指定文件大小为500K
-                        .withChooseMode(true)//文件夹选择模式
-                        //.withFileFilter(new String[]{"txt", "png", "docx"})
-                        .start();*/
-
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("*/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -246,16 +222,44 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
                 actionsFragment.startActivityForResult(intent, ChatActionsFragment.REQUEST_CODE_FILE);
             }
         });
+
+
+        action = new ChatBottomAction();
+        action.setIconResId(R.drawable.photo);
+        action.setTitleId(R.string.photo);
+        action.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIUtils.toastLongMessage("摄像");
+            }
+        });
+        actions.add(action);
+
+        action = new ChatBottomAction();
+        action.setIconResId(R.drawable.video);
+        action.setTitleId(R.string.video);
+        action.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIUtils.toastLongMessage("视频");
+            }
+        });
+        actions.add(action);
+
+        action = new ChatBottomAction();
+        action.setIconResId(R.drawable.file);
+        action.setTitleId(R.string.file);
+        action.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIUtils.toastLongMessage("文件");
+            }
+        });
         actions.add(action);
     }
 
     public void setBottomActions(List<ChatBottomAction> actions) {
         this.actions.addAll(actions);
-    }
-
-
-    public void setActivity(Activity activity) {
-        this.activity = activity;
     }
 
 
@@ -295,7 +299,8 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
             }
         } else if (view.getId() == R.id.more_btn) {
             if (sendAble) {
-                bottomHandler.sendMessage(MessageInfoUtil.buildAudioMessage());
+                bottomHandler.sendMessage(MessageInfoUtil.buildMessage(msgEditor.getText().toString()));
+                msgEditor.setText("");
             } else {
                 if (currentState == STATE_ACTION_INPUT) {
                     currentState = STATE_NONE_INPUT;
@@ -311,14 +316,15 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
     }
 
     private void showSoftInput() {
-        if (moreGroup.getVisibility() == VISIBLE) {
+        hideActionsGroup();
+     /*   if (moreGroup.getVisibility() == VISIBLE) {
             activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         } else {
             activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        }
+        }*/
         currentState = STATE_SOFT_INPUT;
-        switchBtn.setImageResource(R.drawable.mic_icon);
-        faceBtn.setImageResource(R.drawable.face_icon);
+        switchBtn.setImageResource(R.drawable.bottom_action_voice);
+        faceBtn.setImageResource(R.drawable.bottom_action_face);
         msgEditor.requestFocus();
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(msgEditor, 0);
@@ -333,7 +339,7 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
     }
 
 
-    private void hideSoftInput() {
+    public void hideSoftInput() {
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(msgEditor.getWindowToken(), 0);
         msgEditor.clearFocus();
@@ -347,31 +353,37 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
         if (faceFragment == null)
             faceFragment = new FaceFragment();
         hideSoftInput();
-        moreGroup.setVisibility(View.VISIBLE);
-        msgEditor.requestFocus();
-        faceFragment.setListener(new FaceFragment.OnEmojiClickListener() {
+        postDelayed(new Runnable() {
             @Override
-            public void onEmojiDelete() {
-                int index = msgEditor.getSelectionStart();
-                Editable editable = msgEditor.getText();
-                String faceChar = editable.subSequence(index - 4, index).toString();
-                if (FaceManager.isFaceChar(faceChar)) {
-                    editable.delete(index - 4, index);
-                } else {
-                    editable.delete(index - 1, index);
-                }
+            public void run() {
+                moreGroup.setVisibility(View.VISIBLE);
+                msgEditor.requestFocus();
+                faceFragment.setListener(new FaceFragment.OnEmojiClickListener() {
+                    @Override
+                    public void onEmojiDelete() {
+                        int index = msgEditor.getSelectionStart();
+                        Editable editable = msgEditor.getText();
+                        String faceChar = editable.subSequence(index - 4, index).toString();
+                        if (FaceManager.isFaceChar(faceChar)) {
+                            editable.delete(index - 4, index);
+                        } else {
+                            editable.delete(index - 1, index);
+                        }
 
-            }
+                    }
 
-            @Override
-            public void onEmojiClick(Emoji emoji) {
-                int index = msgEditor.getSelectionStart();
-                Editable editable = msgEditor.getText();
-                editable.insert(index, emoji.getFilter());
-                FaceManager.handlerEmojiText(msgEditor, editable.toString());
+                    @Override
+                    public void onEmojiClick(Emoji emoji) {
+                        int index = msgEditor.getSelectionStart();
+                        Editable editable = msgEditor.getText();
+                        editable.insert(index, emoji.getFilter());
+                        FaceManager.handlerEmojiText(msgEditor, editable.toString());
+                    }
+                });
+                fragmentManager.beginTransaction().replace(R.id.more_groups, faceFragment).commitAllowingStateLoss();
             }
-        });
-        fragmentManager.beginTransaction().replace(R.id.more_groups, faceFragment).commitAllowingStateLoss();
+        }, 100);
+
     }
 
     private void showActionsGroup() {
@@ -384,6 +396,10 @@ public class ChatBottomGroup extends LinearLayout implements View.OnClickListene
         hideSoftInput();
         moreGroup.setVisibility(View.VISIBLE);
         fragmentManager.beginTransaction().replace(R.id.more_groups, actionsFragment).commitAllowingStateLoss();
+    }
+
+    private void hideActionsGroup() {
+        moreGroup.setVisibility(View.GONE);
     }
 
     public interface ChatBottomHandler {

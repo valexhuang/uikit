@@ -20,6 +20,9 @@
     <color name="title_bar_bg_color">#ffffff</color>
 
 
+    <color name="voice_pressed">#d2d2d2</color>
+    <color name="voice_normal">#888888</color>
+
     <color name="transparent">#00000000</color>
     <color name="blur_bg">#FFFAF0</color>
     <color name="black">#000000</color>

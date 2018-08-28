@@ -19,16 +19,19 @@ public class ChatManager {
     }
 
     public void loadChatMessages(String userId, ILiveCallBack callBack) {
+        provider.getDataSource().clear();
         MessageInfo messageInfo = new MessageInfo();
         messageInfo.setFromUser("大美女");
-        messageInfo.setMsg("帅哥，晚上约嘛");
+        messageInfo.setMsg("看了今天的比赛没？");
         messageInfo.setMsgId("abc_123");
+        messageInfo.setChatTime(System.currentTimeMillis());
         provider.getDataSource().add(messageInfo);
 
         messageInfo = new MessageInfo();
         messageInfo.setFromUser("大帅哥");
-        messageInfo.setMsg("不约，晚上要带娃");
+        messageInfo.setMsg("看了，十分精彩");
         messageInfo.setMsgId("efg_123");
+        messageInfo.setChatTime(System.currentTimeMillis());
         messageInfo.setSelf(true);
         provider.getDataSource().add(messageInfo);
 

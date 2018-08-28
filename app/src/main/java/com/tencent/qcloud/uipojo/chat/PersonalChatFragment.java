@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.tencent.qcloud.uikit.business.chat.model.BaseChatInfo;
 import com.tencent.qcloud.uikit.business.chat.view.ChatPanel;
 import com.tencent.qcloud.uikit.business.infos.model.GroupInfoBean;
 import com.tencent.qcloud.uikit.business.infos.model.PersonalInfoBean;
@@ -39,7 +40,9 @@ public class PersonalChatFragment extends BaseFragment {
     private void initView() {
         chatPanel = mBaseView.findViewById(R.id.chat_panel);
         chatPanel.initDefault();
-        chatPanel.setBaseChatInfo(mInfo);
+        BaseChatInfo info = new BaseChatInfo();
+        info.setOppositeName("美铝");
+        chatPanel.setBaseChatInfo(info);
         chatTitleBar = chatPanel.getTitleBar();
         chatTitleBar.setTitle(mInfo.getNickName(), PageTitleBar.POSITION.CENTER);
         chatTitleBar.setLeftClick(new View.OnClickListener() {

@@ -16,14 +16,15 @@ import com.tencent.qcloud.uikit.R;
 import com.tencent.qcloud.uikit.api.chat.IChatPanel;
 import com.tencent.qcloud.uikit.api.chat.IChatProvider;
 import com.tencent.qcloud.uikit.api.contact.IContactDataProvider;
+import com.tencent.qcloud.uikit.business.chat.model.BaseChatInfo;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfo;
 import com.tencent.qcloud.uikit.business.chat.presenter.ChatPresenter;
 import com.tencent.qcloud.uikit.business.chat.view.widget.ChatAdapter;
 import com.tencent.qcloud.uikit.business.chat.view.widget.ChatBottomAction;
-import com.tencent.qcloud.uikit.business.chat.view.widget.ChatPanelEvent;
-import com.tencent.qcloud.uikit.business.infos.model.BaseInfoBean;
-import com.tencent.qcloud.uikit.business.infos.model.PersonalInfoBean;
+import com.tencent.qcloud.uikit.business.chat.view.widget.ChatListEvent;
+import com.tencent.qcloud.uikit.business.chat.view.widget.MessageInterceptor;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
+import com.tencent.qcloud.uikit.common.utils.UIUtils;
 
 import java.util.List;
 
@@ -38,12 +39,13 @@ public class ChatPanel extends LinearLayout implements IChatPanel {
     ChatPresenter mPresenter;
     ChatBottomGroup mBottomGroup;
     View mRecordingGroup;
+    View mCoverView;
     ImageView mVolumeImg;
     AnimationDrawable mVolumeAnim;
     Activity mActivity;
     PageTitleBar mTitleBar;
-    private BaseInfoBean mBaseInfo;
-    private ChatPanelEvent mEvent;
+    private BaseChatInfo mBaseInfo;
+    private ChatListEvent mEvent;
 
 
     public ChatPanel(Context context) {
@@ -64,35 +66,35 @@ public class ChatPanel extends LinearLayout implements IChatPanel {
     private void init() {
         inflate(getContext(), R.layout.chat_panel, this);
         mTitleBar = findViewById(R.id.chat_page_title);
-        mTitleBar.getLeftIcon().setImageResource(R.drawable.title_bar_back);
+
         mChatList = findViewById(R.id.chat_list);
         mChatList.setLayoutFrozen(false);
         mChatList.setItemViewCacheSize(0);
+
+        mCoverView = findViewById(R.id.cover_view);
+        mCoverView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBottomGroup.hideSoftInput();
+            }
+        });
+
         mBottomGroup = findViewById(R.id.chat_bottom_box);
         mBottomGroup.setBottomAreaHandler(new ChatBottomGroup.ChatBottomHandler() {
             @Override
             public void bottomAreaShow() {
                 scrollToEnd();
+                mCoverView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void bottomAreaHide() {
-
+                mCoverView.setVisibility(View.GONE);
             }
 
             @Override
             public void sendMessage(MessageInfo messageInfo) {
-                mEvent.sendMessage(messageInfo, new ILiveCallBack() {
-                    @Override
-                    public void onSuccess(Object data) {
-
-                    }
-
-                    @Override
-                    public void onError(String module, int errCode, String errMsg) {
-
-                    }
-                });
+                mPresenter.sendMessage(messageInfo);
                 scrollToEnd();
             }
 
@@ -117,6 +119,8 @@ public class ChatPanel extends LinearLayout implements IChatPanel {
         mRecordingGroup = findViewById(R.id.voice_recording_view);
         mVolumeImg = findViewById(R.id.record_volume);
         mVolumeAnim = (AnimationDrawable) mVolumeImg.getDrawable();
+        mPresenter = new ChatPresenter(this);
+        mPresenter.loadChatInfo("");
     }
 
     public void setBottomActions(List<ChatBottomAction> actions) {
@@ -130,8 +134,9 @@ public class ChatPanel extends LinearLayout implements IChatPanel {
 
 
     @Override
-    public void setChatPanelEvent(ChatPanelEvent event) {
+    public void setChatListEvent(ChatListEvent event) {
         this.mEvent = event;
+        mAdapter.setChatListEvent(event);
     }
 
     @Override
@@ -140,12 +145,21 @@ public class ChatPanel extends LinearLayout implements IChatPanel {
     }
 
     @Override
-    public void setBaseChatInfo(BaseInfoBean info) {
+    public void setMessageInterceptor(MessageInterceptor interceptor) {
+        mAdapter.setEditor(interceptor);
+    }
+
+    @Override
+    public void setBaseChatInfo(BaseChatInfo info) {
         this.mBaseInfo = info;
-        if (mBaseInfo instanceof PersonalInfoBean)
-            mTitleBar.getRightIcon().setImageResource(R.drawable.member_icon);
-        else
-            mTitleBar.getRightIcon().setImageResource(R.drawable.group_icon);
+        mTitleBar.setTitle(info.getOppositeName(), PageTitleBar.POSITION.LEFT);
+        mTitleBar.getLeftGroup().setVisibility(View.VISIBLE);
+        // mTitleBar.getRightIcon().setImageResource(R.drawable.group_icon);
+    }
+
+    @Override
+    public void setBottomActions(List<ChatBottomAction> actions, boolean isAdd) {
+
     }
 
     @Override
@@ -161,31 +175,39 @@ public class ChatPanel extends LinearLayout implements IChatPanel {
     @Override
     public void initDefault() {
         mActivity = (Activity) getContext();
-        mPresenter = new ChatPresenter(this);
         mPresenter.loadChatInfo(null);
-        mBottomGroup.setActivity(mActivity);
-        setChatPanelEvent(new ChatPanelEvent() {
+        setChatListEvent(new ChatListEvent() {
+
             @Override
-            public void sendMessage(MessageInfo messageInfo, ILiveCallBack callBack) {
-                mPresenter.sendMessage(messageInfo);
+            public void onMessageClick(View view, int position, MessageInfo messageInfo) {
+                UIUtils.toastLongMessage("消息点击");
             }
 
             @Override
-            public void onMessageClick(View view, int position) {
-
+            public void onMessageLongClick(View view, int position, MessageInfo messageInfo) {
+                UIUtils.toastLongMessage("消息长按");
             }
 
             @Override
-            public void onMessageDoubleClick(View view, int position) {
-
-            }
-
-            @Override
-            public void onMessageLongClick(View view, int position) {
-
+            public void onUserIconClick(View view, int position, MessageInfo messageInfo) {
+                UIUtils.toastLongMessage("头像点击");
             }
         });
 
+        mTitleBar.getLeftIcon().setImageResource(R.drawable.title_bar_back);
+        mTitleBar.setLeftClick(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mActivity != null)
+                    mActivity.finish();
+            }
+        });
+        mTitleBar.setRightClick(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIUtils.toastLongMessage("标题栏右边点击");
+            }
+        });
     }
 
     @Override

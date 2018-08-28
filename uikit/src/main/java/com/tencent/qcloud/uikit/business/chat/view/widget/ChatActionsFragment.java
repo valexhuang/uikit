@@ -1,21 +1,17 @@
 package com.tencent.qcloud.uikit.business.chat.view.widget;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.tencent.ilivesdk.ILiveCallBack;
 import com.tencent.qcloud.uikit.R;
 import com.tencent.qcloud.uikit.common.BaseFragment;
 
-import java.io.File;
 import java.util.List;
 
 /**

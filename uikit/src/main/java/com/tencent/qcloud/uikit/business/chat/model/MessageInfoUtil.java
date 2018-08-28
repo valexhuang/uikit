@@ -19,6 +19,7 @@ public class MessageInfoUtil {
         MessageInfo info = new MessageInfo();
         info.setMsg(message);
         info.setSelf(true);
+        info.setChatTime(System.currentTimeMillis());
         return info;
     }
 
@@ -26,6 +27,7 @@ public class MessageInfoUtil {
     public static MessageInfo buildImageMessage(Uri uri) {
         MessageInfo info = new MessageInfo();
         info.setSelf(true);
+        info.setChatTime(System.currentTimeMillis());
         info.setMsgType(MessageInfo.MSG_TYPE_IMAGE);
         info.setMsgBitmap(ImageUtil.getBitmapFormUri(uri));
         return info;
@@ -36,16 +38,19 @@ public class MessageInfoUtil {
         info.setSelf(true);
         info.setMsgType(MessageInfo.MSG_TYPE_VIDEO);
         info.setDataUri(videoUri);
+        info.setChatTime(System.currentTimeMillis());
         info.setDataPath(FileUtil.getPathFromUri(videoUri));
         info.setMsgBitmap(ImageUtil.getBitmapFormUri(imgUri));
         info.setBitmapPath(FileUtil.getPathFromUri(imgUri));
         return info;
     }
 
-    public static MessageInfo buildAudioMessage() {
+    public static MessageInfo buildAudioMessage(long audioDuration) {
         MessageInfo info = new MessageInfo();
         info.setDataPath(ILiveAudioMachine.getInstance().getRecordAudioPath());
         info.setSelf(true);
+        info.setChatTime(System.currentTimeMillis());
+        info.setAudioTime((int) audioDuration);
         info.setMsgType(MessageInfo.MSG_TYPE_AUDIO);
         return info;
     }
@@ -55,6 +60,7 @@ public class MessageInfoUtil {
         info.setSelf(true);
         info.setDataPath(FileUtil.getPathFromUri(fileUri));
         info.setDataUri(fileUri);
+        info.setChatTime(System.currentTimeMillis());
         info.setMsgType(MessageInfo.MSG_TYPE_FILE);
         return info;
     }

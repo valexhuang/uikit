@@ -29,6 +29,9 @@ public class MessageInfo {
     private boolean self;
     private boolean read;
     private int audioTime;
+    private long chatTime;
+    private int startLevel;
+    private int starRes;
 
     public String getMsgId() {
         return msgId;
@@ -140,5 +143,29 @@ public class MessageInfo {
 
     public void setAudioTime(int audioTime) {
         this.audioTime = audioTime;
+    }
+
+    public long getChatTime() {
+        return chatTime;
+    }
+
+    public void setChatTime(long chatTime) {
+        this.chatTime = chatTime;
+    }
+
+    public int getStartLevel() {
+        return startLevel;
+    }
+
+    public void setStartLevel(int startLevel) {
+        this.startLevel = startLevel;
+    }
+
+    public int getStarRes() {
+        return starRes;
+    }
+
+    public void setStarRes(int starRes) {
+        this.starRes = starRes;
     }
 }

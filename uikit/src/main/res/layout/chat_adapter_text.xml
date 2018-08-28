@@ -7,7 +7,9 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
 
+
     <TextView
+        android:id="@+id/chat_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/chat_time_margin"
@@ -17,7 +19,6 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:paddingTop="4dp"
-        android:text="5分钟前"
         android:textSize="11sp" />
 
     <RelativeLayout
@@ -26,12 +27,27 @@
         android:layout_height="wrap_content">
 
 
-        <com.tencent.qcloud.uikit.common.widget.ShadeImageView
-            android:id="@+id/iv_user_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/default_user_icon" />
+        <RelativeLayout
+            android:id="@+id/user_icon_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_user_title_icon"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/message_send_fail" />
+
+            <com.tencent.qcloud.uikit.common.widget.ShadeImageView
+                android:id="@+id/iv_user_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/default_user_icon" />
+
+
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/ll_content_group"

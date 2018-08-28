@@ -43,14 +43,16 @@ public class ActionsGridviewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View itemlayout;
         if (convertView == null) {
-            itemlayout = LayoutInflater.from(context).inflate(R.layout.chat_bottom_actoin, null);
+            itemlayout = LayoutInflater.from(context).inflate(R.layout.chat_bottom_actoin, parent, false);
         } else {
             itemlayout = convertView;
         }
 
-        ChatBottomAction viewHolder = baseActions.get(position);
-        ((ImageView) itemlayout.findViewById(R.id.imageView)).setBackgroundResource(viewHolder.getIconResId());
-        ((TextView) itemlayout.findViewById(R.id.textView)).setText(context.getString(viewHolder.getTitleId()));
+        ChatBottomAction action = baseActions.get(position);
+        if (action.getIconResId() > 0)
+            ((ImageView) itemlayout.findViewById(R.id.imageView)).setImageResource(action.getIconResId());
+        if (action.getTitleId() > 0)
+            ((TextView) itemlayout.findViewById(R.id.textView)).setText(context.getString(action.getTitleId()));
         return itemlayout;
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ActionsPagerAdapter extends PagerAdapter {
 
-    private final int ITEM_COUNT_PER_GRID_VIEW = 8;
+    private final int ITEM_COUNT_PER_GRID_VIEW = 4;
     private final Context context;
     private int actionWidth, actionHeight;
 

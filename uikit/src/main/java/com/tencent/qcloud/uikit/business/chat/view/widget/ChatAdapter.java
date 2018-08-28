@@ -21,9 +21,11 @@ import com.tencent.qcloud.uikit.business.chat.model.MessageInfo;
 import com.tencent.qcloud.uikit.common.ILiveConstants;
 import com.tencent.qcloud.uikit.common.component.face.FaceManager;
 import com.tencent.qcloud.uikit.common.component.video.VideoViewActivity;
+import com.tencent.qcloud.uikit.common.utils.DateTimeUtil;
 import com.tencent.qcloud.uikit.common.utils.UIUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,6 +36,18 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
     private List<MessageInfo> mDataSource = new ArrayList<>();
 
+
+    private ChatListEvent mListEvent;
+
+    private MessageInterceptor mInterceptor;
+
+    public void setChatListEvent(ChatListEvent mListEvent) {
+        this.mListEvent = mListEvent;
+    }
+
+    public void setEditor(MessageInterceptor interceptor) {
+        this.mInterceptor = interceptor;
+    }
 
     @NonNull
     @Override
@@ -60,31 +74,75 @@ public class ChatAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         BaseChatHolder chatHolder = (BaseChatHolder) holder;
         final MessageInfo msg = getItem(position);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//(RelativeLayout.LayoutParams) chatHolder.dataView.getLayoutParams();
-        RelativeLayout.LayoutParams iconParams = new RelativeLayout.LayoutParams(UIUtils.getPxByDp(50), UIUtils.getPxByDp(50));//(RelativeLayout.LayoutParams) chatHolder.dataView.getLayoutParams();
+        RelativeLayout.LayoutParams contentGroupParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//(RelativeLayout.LayoutParams) chatHolder.dataView.getLayoutParams();
+        RelativeLayout.LayoutParams iconGroupParams = new RelativeLayout.LayoutParams(UIUtils.getPxByDp(60), UIUtils.getPxByDp(60));//(RelativeLayout.LayoutParams) chatHolder.dataView.getLayoutParams();
+        RelativeLayout.LayoutParams titleIconParams = new RelativeLayout.LayoutParams(UIUtils.getPxByDp(10), UIUtils.getPxByDp(10));//(RelativeLayout.LayoutParams) chatHolder.dataView.getLayoutParams();
+        RelativeLayout.LayoutParams userIconParams = new RelativeLayout.LayoutParams(UIUtils.getPxByDp(50), UIUtils.getPxByDp(50));//(RelativeLayout.LayoutParams) chatHolder.dataView.getLayoutParams();
+
         if (msg.isSelf()) {
             chatHolder.rootView.setGravity(Gravity.RIGHT);
-            iconParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            chatHolder.userIcon.setLayoutParams(iconParams);
-            params.addRule(RelativeLayout.LEFT_OF, R.id.iv_user_icon);
-            chatHolder.contentGroup.setLayoutParams(params);
+            int iconGroupRules[] = iconGroupParams.getRules();
+            iconGroupParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            chatHolder.iconGroup.setLayoutParams(iconGroupParams);
+            chatHolder.iconGroup.setGravity(Gravity.LEFT);
+
+            titleIconParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            chatHolder.userTitleIcon.setLayoutParams(titleIconParams);
+
+            userIconParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            chatHolder.userIcon.setLayoutParams(userIconParams);
+
+
+            contentGroupParams.addRule(RelativeLayout.LEFT_OF, R.id.user_icon_group);
+            chatHolder.contentGroup.setLayoutParams(contentGroupParams);
             chatHolder.contentGroup.setGravity(Gravity.RIGHT);
             chatHolder.dataView.setBackgroundResource(R.drawable.ilive_message_right_selector);
 
         } else {
             chatHolder.rootView.setGravity(Gravity.LEFT);
-            iconParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            chatHolder.userIcon.setLayoutParams(iconParams);
-            params.addRule(RelativeLayout.RIGHT_OF, R.id.iv_user_icon);
-            chatHolder.contentGroup.setLayoutParams(params);
+            iconGroupParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            chatHolder.iconGroup.setLayoutParams(iconGroupParams);
+            chatHolder.iconGroup.setGravity(Gravity.LEFT);
+
+            titleIconParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            chatHolder.userTitleIcon.setLayoutParams(titleIconParams);
+
+            userIconParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            chatHolder.userIcon.setLayoutParams(userIconParams);
+
+            contentGroupParams.addRule(RelativeLayout.RIGHT_OF, R.id.user_icon_group);
+            chatHolder.contentGroup.setLayoutParams(contentGroupParams);
             chatHolder.contentGroup.setGravity(Gravity.LEFT);
             chatHolder.dataView.setBackgroundResource(R.drawable.ilive_message_left_selector);
 
 
         }
+        if (mListEvent != null) {
+            chatHolder.contentGroup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListEvent.onMessageClick(v, position, msg);
+                }
+            });
+            chatHolder.contentGroup.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    mListEvent.onMessageLongClick(v, position, msg);
+                    return true;
+                }
+            });
+            chatHolder.userIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListEvent.onUserIconClick(v, position, msg);
+                }
+            });
+
+        }
+
         switch (getItemViewType(position)) {
             case MessageInfo.MSG_TYPE_TEXT:
                 ChatTextHolder msgHolder = (ChatTextHolder) chatHolder;
@@ -115,44 +173,53 @@ public class ChatAdapter extends RecyclerView.Adapter {
             case MessageInfo.MSG_TYPE_AUDIO:
                 final ChatAudioHolder audioHolder = (ChatAudioHolder) chatHolder;
                 RelativeLayout.LayoutParams dataParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//(RelativeLayout.LayoutParams) chatHolder.dataView.getLayoutParams();
-                RelativeLayout.LayoutParams extraParams = new RelativeLayout.LayoutParams(UIUtils.getPxByDp(50), UIUtils.getPxByDp(50));//(RelativeLayout.LayoutParams) chatHolder.dataView.getLayoutParams();
+                RelativeLayout.LayoutParams extraParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//(RelativeLayout.LayoutParams) chatHolder.dataView.getLayoutParams();
+                extraParams.setMarginStart(20);
+                extraParams.setMarginEnd(20);
                 if (msg.isSelf()) {
                     dataParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                     audioHolder.dataView.setLayoutParams(dataParams);
                     audioHolder.dataView.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
                     extraParams.addRule(RelativeLayout.LEFT_OF, R.id.ll_msg_data_group);
+                    extraParams.addRule(RelativeLayout.CENTER_VERTICAL);
                     audioHolder.extra.setLayoutParams(extraParams);
                 } else {
                     dataParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
                     audioHolder.dataView.setLayoutParams(dataParams);
                     audioHolder.dataView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
                     extraParams.addRule(RelativeLayout.RIGHT_OF, R.id.ll_msg_data_group);
+                    extraParams.addRule(RelativeLayout.CENTER_VERTICAL);
                     audioHolder.extra.setLayoutParams(extraParams);
                 }
                 audioHolder.imgPlay.setImageResource(R.drawable.voice_msg_playing_3);
-                audioHolder.time.setText(msg.getAudioTime() + "''");
+                int duration = msg.getAudioTime() / 1000;
+                if (duration == 0)
+                    duration = 1;
+                audioHolder.time.setText(duration + "''");
                 audioHolder.dataView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         audioHolder.imgPlay.setImageResource(R.drawable.play_voice_message);
                         final AnimationDrawable animationDrawable = (AnimationDrawable) audioHolder.imgPlay.getDrawable();
                         animationDrawable.start();
-                        ILiveAudioMachine.getInstance().playRecord(msg.getDataPath(), new ILiveAudioMachine.AudioHandleCallback() {
+                        audioHolder.imgPlay.postDelayed(new Runnable() {
                             @Override
-                            public void recordComplete() {
-
-                            }
-
-                            @Override
-                            public void playComplete() {
-                                if (animationDrawable != null)
-                                    animationDrawable.stop();
+                            public void run() {
+                                animationDrawable.stop();
                                 audioHolder.imgPlay.setImageResource(R.drawable.voice_msg_playing_3);
                             }
-                        });
+                        }, msg.getAudioTime());
+
                     }
                 });
                 break;
+        }
+        chatHolder.chatTime.setText(DateTimeUtil.getTimeFormatText(new Date(msg.getChatTime())));
+        if (msg.getStarRes() > 0) {
+            chatHolder.userTitleIcon.setImageResource(msg.getStarRes());
+            chatHolder.userTitleIcon.setVisibility(View.VISIBLE);
+        } else {
+            chatHolder.userTitleIcon.setVisibility(View.GONE);
         }
 
     }
@@ -173,26 +240,33 @@ public class ChatAdapter extends RecyclerView.Adapter {
     }
 
     public MessageInfo getItem(int position) {
-        return mDataSource.get(position);
+        MessageInfo info = mDataSource.get(position);
+        if (mInterceptor != null)
+            mInterceptor.intercept(info);
+        return info;
     }
 
 
     class BaseChatHolder extends RecyclerView.ViewHolder {
 
-        protected ImageView userIcon;
-        protected TextView userName;
+        protected ImageView userIcon, userTitleIcon;
+        protected TextView userName, chatTime;
         protected RelativeLayout rootView;
         protected LinearLayout contentGroup;
         protected LinearLayout dataView;
+        protected RelativeLayout iconGroup;
 
 
         public BaseChatHolder(View itemView) {
             super(itemView);
             rootView = (RelativeLayout) itemView.findViewById(R.id.chat_info_content);
             userName = itemView.findViewById(R.id.tv_user_name);
+            chatTime = itemView.findViewById(R.id.chat_time);
             userIcon = itemView.findViewById(R.id.iv_user_icon);
+            userTitleIcon = itemView.findViewById(R.id.iv_user_title_icon);
             contentGroup = itemView.findViewById(R.id.ll_content_group);
             dataView = itemView.findViewById(R.id.ll_msg_data_group);
+            iconGroup = (RelativeLayout) itemView.findViewById(R.id.user_icon_group);
         }
     }
 

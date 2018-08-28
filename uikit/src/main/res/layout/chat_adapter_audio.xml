@@ -1,83 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
 
-    <ImageView
-        android:id="@+id/iv_user_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/default_user_icon" />
 
-    <LinearLayout
-        android:id="@+id/ll_content_group"
+    <TextView
+        android:id="@+id/chat_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginBottom="@dimen/chat_time_margin"
+        android:layout_marginTop="@dimen/chat_time_margin"
+        android:background="@drawable/chat_time_border"
+        android:paddingBottom="4dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="4dp"
+        android:textSize="11sp" />
 
-        <TextView
-            android:id="@+id/tv_user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:gravity="center_vertical"
-            android:text="abc"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
+    <RelativeLayout
+        android:id="@+id/chat_info_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:id="@+id/rl_msg_info_group"
+            android:id="@+id/user_icon_group"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/ll_msg_data_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+            <ImageView
+                android:id="@+id/iv_user_title_icon"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/message_send_fail" />
 
-                <ImageView
-                    android:id="@+id/audio_play"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:src="@drawable/voice_msg_playing_3" />
-
-
-            </LinearLayout>
-
-
-            <RelativeLayout
-                android:id="@+id/rl_msg_extra"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp">
-
-                <ImageView
-                    android:id="@+id/unread_flag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/red_dot" />
-
-                <TextView
-                    android:id="@+id/audio_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="12&apos;&apos;"
-                    android:textSize="16sp" />
-            </RelativeLayout>
+            <com.tencent.qcloud.uikit.common.widget.ShadeImageView
+                android:id="@+id/iv_user_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/default_user_icon" />
 
 
         </RelativeLayout>
 
+        <LinearLayout
+            android:id="@+id/ll_content_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:gravity="center_vertical"
+                android:text="abc"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:visibility="gone" />
 
 
-</RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_msg_info_group"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_msg_data_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/audio_play"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:src="@drawable/voice_msg_playing_3" />
+
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/rl_msg_extra"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp">
+
+                    <ImageView
+                        android:id="@+id/unread_flag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/red_dot" />
+
+                    <TextView
+                        android:id="@+id/audio_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="12&apos;&apos;"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
